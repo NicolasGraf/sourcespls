@@ -1,9 +1,13 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const { closeBrowserInstance } = require("./util/BrowserManager");
+const http = require("http");
 
 const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
+const urlsRouter = require("./routes/urls");
+
+const port = process.env.PORT || "3030";
 
 const app = express();
 
@@ -13,6 +17,21 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/urls", urlsRouter);
+app.set("port", port);
 
-module.exports = app;
+const server = http.createServer(app);
+
+server.listen(port);
+server.on("error", (err) => console.log(err));
+server.on("listening", () => console.log("listening on port " + port));
+
+process.on("SIGINT", async () => {
+  await closeBrowserInstance();
+  process.exit(0);
+});
+
+process.on("SIGTERM", async () => {
+  await closeBrowserInstance();
+  process.exit(0);
+});
