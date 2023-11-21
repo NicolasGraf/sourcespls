@@ -6,10 +6,15 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.38.5",
     "cheerio": "^1.0.0-rc.12",
     "cookie-parser": "~1.4.4",
     "express": "~4.16.1",
     "morgan": "~1.9.1",
-    "puppeteer": "^21.5.2"
+    "puppeteer": "^21.5.2",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "supabase": "^1.113.2"
   }
 }
