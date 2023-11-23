@@ -1,6 +1,7 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const cors = require("cors");
 const { closeBrowserInstance } = require("./util/BrowserManager");
 const http = require("http");
 
@@ -8,7 +9,6 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const indexRouter = require("./routes/index");
-const urlsRouter = require("./routes/urls");
 const sourcesRouter = require("./routes/sources");
 
 const port = process.env.PORT || "3030";
@@ -17,11 +17,11 @@ const app = express();
 
 app.use(logger("dev"));
 app.use(express.json());
+app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use("/", indexRouter);
-app.use("/urls", urlsRouter);
 app.use("/sources", sourcesRouter);
 
 app.set("port", port);

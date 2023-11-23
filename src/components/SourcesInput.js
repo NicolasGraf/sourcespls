@@ -1,37 +1,72 @@
 import { useState } from "react";
-import { Button, TextInput } from "flowbite-react";
+import { Button, Card, Spinner, TextInput } from "flowbite-react";
 
-const SourcesInput = () => {
-  const [sourceInputs, setSourceInputs] = useState([""]);
+const SourcesInputContainer = ({
+  handleInputChange,
+  sourceUrl,
+  onAddSource,
+}) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
-  const handleInputChange = (e, index) => {
-    const newInputs = [...sourceInputs];
-    newInputs[index] = e.target.value;
-    setSourceInputs(newInputs);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    addSource(sourceUrl);
   };
 
-  const addInput = () => {
-    setSourceInputs([...sourceInputs, ""]);
+  const addSource = async () => {
+    setIsLoading(true);
+    setHasError(false);
+    try {
+      const response = await fetch(`http://localhost:3030/sources`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          url: sourceUrl,
+        }),
+      });
+      const responseBody = await response.json();
+      if (responseBody.error) {
+        throw responseBody.error;
+      } else {
+        onAddSource(responseBody);
+      }
+    } catch (error) {
+      setHasError(true);
+      console.error("Failed to fetch URL data:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <form>
-      {sourceInputs.map((sourceInput, index) => (
+    <Card className="mb-4 w-full text-left">
+      <h3 className="text-xl">Enter URL</h3>
+      <form onSubmit={handleSubmit}>
         <TextInput
           type="url"
           required
-          key={index}
-          placeholder={`Source ${index + 1}`}
-          className="mb-4"
-          onChange={(event) => handleInputChange(event, index)}
+          placeholder={`Enter URL`}
+          className="w-full mb-4"
+          onChange={(event) => handleInputChange(event)}
+          color={hasError ? "failure" : "gray"}
+          helperText={
+            hasError && (
+              <span className="font-medium">Could not save this URL</span>
+            )
+          }
         />
-      ))}
-      <Button className="mb-4" onClick={addInput}>
-        Add Source
-      </Button>
-      <Button type={"submit"}>Submit</Button>
-    </form>
+        <div className="w-full flex items-center justify-between">
+          <Button type={"submit"} disabled={isLoading} className="self-start">
+            Add
+          </Button>
+          {isLoading && <Spinner />}
+        </div>
+      </form>
+    </Card>
   );
 };
 
-export default SourcesInput;
+export default SourcesInputContainer;

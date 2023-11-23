@@ -20,6 +20,7 @@ const closeBrowserInstance = async () => {
 
 const requestFilterAssetsHandler = (request) => {
   const resourcesToAbort = ["image", "stylesheet", "font", "script"];
+  console.log(request.resourceType());
 
   if (resourcesToAbort.includes(request.resourceType())) {
     request.abort();
@@ -32,16 +33,20 @@ const getInfoFromContent = (content) => {
   const $ = load(content);
 
   const getTitle = () =>
-    $('meta[property="og:title"]').attr("content") || $("title").text();
+    $('meta[property="og:title"]').attr("content") ||
+    $("title").text() ||
+    "No title";
   const getDescription = () =>
     $('meta[property="og:description"]').attr("content") ||
-    $('meta[name="description"]').attr("content");
-  const getImage = () => $('meta[property="og:image"]').attr("content");
+    $('meta[name="description"]').attr("content") ||
+    "No description";
+
+  const getImage = () => $('meta[property="og:image"]').attr("content") || "";
 
   return {
     title: getTitle(),
     description: getDescription(),
-    image: getImage(),
+    imageUrl: getImage(),
   };
 };
 
