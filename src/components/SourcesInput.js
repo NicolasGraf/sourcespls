@@ -26,7 +26,7 @@ const SourcesInputContainer = ({
           className="w-full mb-4"
           value={sourceUrl}
           onChange={(event) => handleInputChange(event.target.value)}
-          color={hasError ? "failure" : "gray"}
+          color={hasError ? "failure" : "primary"}
           helperText={
             hasError && (
               <span className="font-medium">Could not save this URL</span>

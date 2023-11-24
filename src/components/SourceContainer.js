@@ -25,7 +25,9 @@ const SourceContainer = ({ source, onDelete, editable }) => {
             <span>{siteName}</span>
           </h4>
           <h3 className="text-lg font-medium">{title}</h3>
-          <p className="text-gray-500">{description}</p>
+          <p className="text-primary-dark dark:text-secondary-light">
+            {description}
+          </p>
           <Button className="self-start" onClick={visitUrl}>
             <FaExternalLinkAlt className="mr-2" />
             Visit

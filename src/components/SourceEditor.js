@@ -39,9 +39,8 @@ const SourceEditor = ({
 
   return (
     <>
-      <h1 className="text-4xl mb-4">My Sources</h1>
-      <h2 className="text-2xl mb-4">
-        Provide the sources for you online argument
+      <h2 className="text-xl mb-4">
+        Enter a title to your argument, and provide sources and quotes.
       </h2>
       <TitleInput title={argumentTitle} onChange={setArgumentTitle} />
       <AddSourceButton
