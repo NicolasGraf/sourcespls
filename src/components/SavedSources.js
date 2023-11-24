@@ -1,6 +1,6 @@
 import SourceContainer from "./SourceContainer";
 
-const SavedSources = ({ argument, sources, setSources }) => {
+const SavedSources = ({ sources, setSources }) => {
   const noSources = sources.length === 0;
 
   const onDelete = (id) => {
