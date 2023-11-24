@@ -2,8 +2,9 @@ import SourceContainer from "./SourceContainer";
 import { Button, Card, Spinner } from "flowbite-react";
 import { AiFillCopy } from "react-icons/ai";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-const SavedSources = ({ sources, setSources }) => {
+const SavedSources = ({ argumentTitle, sources, setSources }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [createdLink, setCreatedLink] = useState(null);
   const [hasNewInformation, setHasNewInformation] = useState(true);
@@ -22,7 +23,7 @@ const SavedSources = ({ sources, setSources }) => {
   const addArgument = async () => {
     const sourceIds = sources.map((source) => source.id);
     const body = {
-      title: "Test",
+      title: argumentTitle,
       sourceIds,
     };
 
@@ -35,6 +36,7 @@ const SavedSources = ({ sources, setSources }) => {
         },
         body: JSON.stringify(body),
       });
+
       const responseBody = await response.json();
       const host = window.location.origin;
       setCreatedLink(`${host}/${responseBody.slug}`);
@@ -49,7 +51,7 @@ const SavedSources = ({ sources, setSources }) => {
   return (
     <div className="">
       <h2 className="text-2xl mb-4">Sources</h2>
-      {noSources && <p className="text-gray-500">No sources added yet.</p>}
+      {noSources && <p className="text-gray-500 mb-4">No sources added yet.</p>}
       {!noSources &&
         sources.map((source) => (
           <SourceContainer
@@ -69,7 +71,7 @@ const SavedSources = ({ sources, setSources }) => {
       {createdLink && (
         <Card>
           <div className="flex items-center justify-center gap-4">
-            {createdLink}
+            <Link to={createdLink}>{createdLink}</Link>
             <AiFillCopy className="text-2xl text-gray-500 cursor-pointer" />
           </div>
         </Card>

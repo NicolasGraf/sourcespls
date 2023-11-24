@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Button, TextInput } from "flowbite-react";
+import { Button } from "flowbite-react";
 import SourcesInput from "./SourcesInput";
 import { AiOutlinePlus } from "react-icons/ai";
 
-const SourcesInputContainer = ({ sources, setSources }) => {
+const SourcesInputContainer = ({ hasTitle, sources, setSources }) => {
   const [sourceInputValue, setSourceInputValue] = useState(null);
 
   const handleInputChange = (e) => {
@@ -23,7 +23,7 @@ const SourcesInputContainer = ({ sources, setSources }) => {
   return (
     <>
       {sourceInputValue === null && (
-        <Button className="mb-4 w-full" onClick={addInput}>
+        <Button className="mb-4 w-full" onClick={addInput} disabled={!hasTitle}>
           Add Source
           <AiOutlinePlus className="ml-2" />
         </Button>

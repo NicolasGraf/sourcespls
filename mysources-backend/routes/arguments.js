@@ -8,6 +8,51 @@ router.get("/", async (req, res) => {
   res.send({ title: "Express" });
 });
 
+router.get("/:slug", async (req, res) => {
+  const { slug } = req.params;
+
+  try {
+    const sbClient = getSupabaseClient();
+
+    const { data: argumentData, error: argumentError } = await sbClient
+      .from("arguments")
+      .select()
+      .eq("slug", slug)
+      .single();
+
+    if (argumentError) {
+      console.error("argument error:", argumentError);
+      return res.status(400).json({
+        errorMessage: "Couldn't get argument.",
+        details: argumentError.message,
+      });
+    }
+
+    const { data: sourcesData, error: sourcesError } = await sbClient
+      .from("sources")
+      .select()
+      .eq("argument_id", argumentData.id);
+
+    if (sourcesError) {
+      console.error("sources error:", sourcesError);
+      return res.status(400).json({
+        errorMessage: "Couldn't get sources.",
+        details: sourcesError.message,
+      });
+    }
+
+    sourcesData.forEach((source) => {
+      source.imageUrl = source.image_url;
+      delete source.image_url;
+    });
+
+    res.json({ ...argumentData, sources: sourcesData });
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    res.status(500).json({ errorMessage: "Server error occurred." });
+  }
+});
+
 router.post("/", async (req, res) => {
   const { title, sourceIds } = req.body;
   const slug = nanoid(8);

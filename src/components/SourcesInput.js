@@ -59,7 +59,11 @@ const SourcesInputContainer = ({
           }
         />
         <div className="w-full flex items-center justify-between">
-          <Button type={"submit"} disabled={isLoading} className="self-start">
+          <Button
+            type={"submit"}
+            disabled={isLoading || !sourceUrl}
+            className="self-start"
+          >
             Add
           </Button>
           {isLoading && <Spinner />}
