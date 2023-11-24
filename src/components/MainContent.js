@@ -13,7 +13,7 @@ export const MainContent = () => {
       </h2>
       <SourcesInputContainer sources={sources} setSources={setSources} />
       <Separator />
-      <SavedSources sources={sources} />
+      <SavedSources sources={sources} setSources={setSources} />
     </main>
   );
 };

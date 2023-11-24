@@ -1,22 +1,22 @@
-const express = require("express");
-const { getSupabaseClient } = require("../util/SupabaseManager");
-const {
+import express from "express";
+import { getSupabaseClient } from "../util/SupabaseManager.js";
+import {
   getBrowserInstance,
-  requestFilterAssetsHandler,
   getInfoFromContent,
-} = require("../util/BrowserManager");
+  requestFilterAssetsHandler,
+} from "../util/BrowserManager.js";
+
 const router = express.Router();
 
-router.get("/", async (req, res, next) => {
+router.get("/", async (req, res) => {
   res.send({ title: "Express" });
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", async (req, res) => {
   const { url } = req.body;
 
   if (!url) {
-    res.status(400).send({ errorMessage: "URL parameter is required." });
-    return;
+    return res.status(400).json({ errorMessage: "URL parameter is required." });
   }
 
   try {
@@ -26,29 +26,43 @@ router.post("/", async (req, res, next) => {
 
     const sbClient = getSupabaseClient();
 
-    const { error } = await sbClient.from("sources").insert([
-      {
-        url: result.url,
-        title: result.title,
-        description: result.description,
-        image_url: result.imageUrl,
-      },
-    ]);
+    const { data, error } = await sbClient
+      .from("sources")
+      .insert([
+        {
+          url: result.url,
+          title: result.title,
+          description: result.description,
+          image_url: result.imageUrl,
+        },
+      ])
+      .select()
+      .single();
 
     if (error) {
-      res.status(400).send({ errorMessage: "Couldn't insert source.", error });
-      return;
+      console.error("Insert source error:", error);
+      return res.status(400).json({
+        errorMessage: "Couldn't insert source.",
+        details: error.message,
+      });
     }
-    res.send(result);
+
+    const response = {
+      ...data,
+      imageUrl: data.image_url,
+    };
+    delete response.image_url;
+
+    res.status(201).json(response);
   } catch (error) {
-    res
-      .status(400)
-      .send({ errorMessage: "Couldn't extract info from URL.", error });
+    console.error("URL processing error:", error);
+    res.status(500).json({
+      errorMessage: "Server error occurred while processing the URL.",
+    });
   }
 });
 
-module.exports = router;
-
+export default router;
 const getInformationFromUrl = async (url) => {
   const browser = await getBrowserInstance();
   console.log("got browser instance");

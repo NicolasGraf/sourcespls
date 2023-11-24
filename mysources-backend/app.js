@@ -1,16 +1,16 @@
-const express = require("express");
-const cookieParser = require("cookie-parser");
-const logger = require("morgan");
-const cors = require("cors");
-const { closeBrowserInstance } = require("./util/BrowserManager");
-const http = require("http");
+import express from "express";
+import http from "http";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import logger from "morgan";
+import dotenv from "dotenv";
 
-const dotenv = require("dotenv");
+import indexRouter from "./routes/index.js";
+import sourcesRouter from "./routes/sources.js";
+import argumentsRouter from "./routes/arguments.js";
+import { closeBrowserInstance } from "./util/BrowserManager.js";
+
 dotenv.config();
-
-const indexRouter = require("./routes/index");
-const sourcesRouter = require("./routes/sources");
-
 const port = process.env.PORT || "3030";
 
 const app = express();
@@ -23,6 +23,7 @@ app.use(cookieParser());
 
 app.use("/", indexRouter);
 app.use("/sources", sourcesRouter);
+app.use("/arguments", argumentsRouter);
 
 app.set("port", port);
 

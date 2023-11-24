@@ -1,5 +1,6 @@
-const puppeteer = require("puppeteer");
-const { load } = require("cheerio");
+import puppeteer from "puppeteer";
+import { load } from "cheerio";
+
 let browser;
 
 const getBrowserInstance = async () => {
@@ -50,7 +51,7 @@ const getInfoFromContent = (content) => {
   };
 };
 
-module.exports = {
+export {
   getBrowserInstance,
   closeBrowserInstance,
   requestFilterAssetsHandler,

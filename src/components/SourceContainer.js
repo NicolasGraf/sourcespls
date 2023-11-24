@@ -2,10 +2,14 @@ import { Button, Card } from "flowbite-react";
 import { IoClose } from "react-icons/io5";
 import { FaExternalLinkAlt } from "react-icons/fa";
 
-const SourceContainer = ({ source }) => {
+const SourceContainer = ({ source, onDelete }) => {
   const { id, url, title, description, imageUrl } = source;
   let image = new Image();
   image.src = imageUrl ? imageUrl : "https://via.placeholder.com/150";
+
+  const visitUrl = () => {
+    window.open(url, "_blank");
+  };
 
   return (
     <Card className="mb-4">
@@ -18,12 +22,15 @@ const SourceContainer = ({ source }) => {
         <div className="flex-1 text-left flex flex-col gap-4">
           <h4 className="text-lg font-medium">{title}</h4>
           <p className="text-gray-500">{description}</p>
-          <Button className="self-start">
+          <Button className="self-start" onClick={visitUrl}>
             <FaExternalLinkAlt className="mr-2" />
             Visit
           </Button>
         </div>
-        <IoClose className="text-2xl text-gray-500" />
+        <IoClose
+          onClick={onDelete}
+          className="text-2xl text-gray-500 cursor-pointer"
+        />
       </div>
     </Card>
   );

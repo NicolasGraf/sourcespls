@@ -1,8 +1,9 @@
-const express = require("express");
+import express from "express";
+
 const router = express.Router();
 
-router.get("/", async (req, res, next) => {
+router.get("/", async (req, res) => {
   res.send({ title: "Express" });
 });
 
-module.exports = router;
+export default router;

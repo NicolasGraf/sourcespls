@@ -1,4 +1,4 @@
-const { createClient } = require("@supabase/supabase-js");
+import { createClient } from "@supabase/supabase-js";
 
 let supabaseClient;
 
@@ -12,4 +12,4 @@ function getSupabaseClient() {
   return supabaseClient;
 }
 
-module.exports = { getSupabaseClient };
+export { getSupabaseClient };
