@@ -30,24 +30,55 @@ const requestFilterAssetsHandler = (request) => {
   }
 };
 
-const getInfoFromContent = (content) => {
+const getInfoFromContent = (content, url) => {
   const $ = load(content);
 
-  const getTitle = () =>
+  const title =
     $('meta[property="og:title"]').attr("content") ||
     $("title").text() ||
     "No title";
-  const getDescription = () =>
+
+  const description =
     $('meta[property="og:description"]').attr("content") ||
     $('meta[name="description"]').attr("content") ||
     "No description";
 
-  const getImage = () => $('meta[property="og:image"]').attr("content") || "";
+  const getImage = () => {
+    const image = $('meta[property="og:image"]').attr("content") || "";
+    if (image && !image.startsWith("http")) {
+      const baseUrl = new URL(url).origin;
+      return baseUrl + image;
+    }
+    return image;
+  };
+
+  const siteName =
+    $('meta[property="og:site_name"]').attr("content") ||
+    $('meta[property="og:site"]').attr("content") ||
+    $('meta[property="author"]').attr("content") ||
+    new URL(url).hostname.replace("www.", "") ||
+    "";
+
+  const getIcon = () => {
+    const icon =
+      $('link[rel="icon"]').attr("href") ||
+      $('link[rel="shortcut icon"]').attr("href") ||
+      $('link[rel="apple-touch-icon"]').attr("href") ||
+      $('link[rel="apple-touch-icon-precomposed"]').attr("href") ||
+      "";
+    if (icon && !icon.startsWith("http")) {
+      const baseUrl = new URL(url).origin;
+      return baseUrl + icon;
+    }
+    return icon;
+  };
 
   return {
-    title: getTitle(),
-    description: getDescription(),
+    title: title,
+    siteName: siteName,
+    description: description,
     imageUrl: getImage(),
+    icon: getIcon(),
   };
 };
 

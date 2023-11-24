@@ -18,6 +18,7 @@ const SavedSources = ({ sources, setSources }) => {
             key={source.id}
             source={source}
             onDelete={() => onDelete(source.id)}
+            editable={true}
           />
         ))}
     </div>

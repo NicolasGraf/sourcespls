@@ -2,8 +2,8 @@ import { Button, Card } from "flowbite-react";
 import { IoClose } from "react-icons/io5";
 import { FaExternalLinkAlt } from "react-icons/fa";
 
-const SourceContainer = ({ source, onDelete }) => {
-  const { id, url, title, description, imageUrl } = source;
+const SourceContainer = ({ source, onDelete, editable }) => {
+  const { id, url, title, description, imageUrl, siteName, icon } = source;
   let image = new Image();
   image.src = imageUrl ? imageUrl : "https://via.placeholder.com/150";
 
@@ -19,18 +19,24 @@ const SourceContainer = ({ source, onDelete }) => {
           src={image.src}
           alt={title}
         />
-        <div className="flex-1 text-left flex flex-col gap-4">
-          <h4 className="text-lg font-medium">{title}</h4>
+        <div className="flex-1 text-left flex flex-col gap-2">
+          <h4 className="flex items-center">
+            <img className="w-4 h-4 mr-2" src={icon} alt={"icon"} />
+            <span>{siteName}</span>
+          </h4>
+          <h3 className="text-lg font-medium">{title}</h3>
           <p className="text-gray-500">{description}</p>
           <Button className="self-start" onClick={visitUrl}>
             <FaExternalLinkAlt className="mr-2" />
             Visit
           </Button>
         </div>
-        <IoClose
-          onClick={onDelete}
-          className="text-2xl text-gray-500 cursor-pointer"
-        />
+        {editable && (
+          <IoClose
+            onClick={() => onDelete(id)}
+            className="text-2xl text-gray-500 cursor-pointer"
+          />
+        )}
       </div>
     </Card>
   );

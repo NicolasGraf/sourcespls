@@ -32,8 +32,10 @@ router.post("/", async (req, res) => {
         {
           url: result.url,
           title: result.title,
+          site_name: result.siteName,
           description: result.description,
           image_url: result.imageUrl,
+          icon: result.icon,
         },
       ])
       .select()
@@ -50,8 +52,11 @@ router.post("/", async (req, res) => {
     const response = {
       ...data,
       imageUrl: data.image_url,
+      siteName: data.site_name,
     };
+
     delete response.image_url;
+    delete response.site_name;
 
     res.status(201).json(response);
   } catch (error) {
@@ -74,7 +79,7 @@ const getInformationFromUrl = async (url) => {
     page.on("request", requestFilterAssetsHandler);
     await page.goto(url, { waitUntil: "domcontentloaded" });
     const content = await page.content();
-    const info = getInfoFromContent(content);
+    const info = getInfoFromContent(content, url);
 
     return {
       url: url,
