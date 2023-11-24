@@ -74,12 +74,16 @@ const getInformationFromUrl = async (url) => {
 
   try {
     const page = await browser.newPage();
+    await page.setUserAgent(
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
+    );
     await page.setRequestInterception(true);
 
     page.on("request", requestFilterAssetsHandler);
-    await page.goto(url, { waitUntil: "domcontentloaded" });
+    await page.goto(url, { waitUntil: "networkidle2" });
     const content = await page.content();
     const info = getInfoFromContent(content, url);
+    await page.close();
 
     return {
       url: url,

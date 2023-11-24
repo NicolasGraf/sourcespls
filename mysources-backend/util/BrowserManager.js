@@ -20,8 +20,7 @@ const closeBrowserInstance = async () => {
 };
 
 const requestFilterAssetsHandler = (request) => {
-  const resourcesToAbort = ["image", "stylesheet", "font", "script"];
-  console.log(request.resourceType());
+  const resourcesToAbort = ["image", "stylesheet", "font"];
 
   if (resourcesToAbort.includes(request.resourceType())) {
     request.abort();
@@ -36,12 +35,12 @@ const getInfoFromContent = (content, url) => {
   const title =
     $('meta[property="og:title"]').attr("content") ||
     $("title").text() ||
-    "No title";
+    "No Title";
 
   const description =
     $('meta[property="og:description"]').attr("content") ||
     $('meta[name="description"]').attr("content") ||
-    "No description";
+    "";
 
   const getImage = () => {
     const image = $('meta[property="og:image"]').attr("content") || "";
@@ -66,6 +65,11 @@ const getInfoFromContent = (content, url) => {
       $('link[rel="apple-touch-icon"]').attr("href") ||
       $('link[rel="apple-touch-icon-precomposed"]').attr("href") ||
       "";
+
+    if (icon && icon.startsWith("//")) {
+      return "https:" + icon;
+    }
+
     if (icon && !icon.startsWith("http")) {
       const baseUrl = new URL(url).origin;
       return baseUrl + icon;
