@@ -1,31 +1,52 @@
-import SourcesInputContainer from "./SourcesInputContainer";
 import SavedSources from "./SavedSources";
 import { useState } from "react";
 import Separator from "./Separator";
-import TitleInput from "./TitleInput";
+import SourceEditor from "./SourceEditor";
+import { saveArgument } from "./lib/apiController";
+import LinkCreator from "./LinkCreator";
 
 export const MainContent = () => {
   const [sources, setSources] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [argumentTitle, setArgumentTitle] = useState("");
+  const [createdLink, setCreatedLink] = useState(null);
+
+  const addArgument = async () => {
+    const sourceIds = sources.map((source) => source.id);
+    setIsLoading(true);
+    try {
+      const responseBody = await saveArgument({ argumentTitle, sourceIds });
+      const host = window.location.origin;
+      setCreatedLink(`${host}/${responseBody.slug}`);
+    } catch (error) {
+      console.error("Failed to fetch URL data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <main className="container mx-auto px-4 py-8 text-center dark:text-white">
-      <h1 className="text-4xl mb-4">My Sources</h1>
-      <h2 className="text-2xl mb-4">
-        Provide the sources for you online argument
-      </h2>
-      <TitleInput title={argumentTitle} onChange={setArgumentTitle} />
-      <SourcesInputContainer
-        hasTitle={argumentTitle !== ""}
-        sources={sources}
-        setSources={setSources}
-      />
+    <main className="container mx-auto px-4 py-8 text-center dark:text-white md:flex md:flex-row">
+      <div className="flex-1">
+        <SourceEditor
+          argumentTitle={argumentTitle}
+          setArgumentTitle={setArgumentTitle}
+          sources={sources}
+          setSources={setSources}
+        />
+        <hr className="h-0.5 border-gray-600 my-8" />
+        <LinkCreator
+          addArgument={addArgument}
+          createdLink={createdLink}
+          isLoading={isLoading}
+          hasSources={sources.length !== 0}
+        />
+      </div>
+
       <Separator />
-      <SavedSources
-        argumentTitle={argumentTitle}
-        sources={sources}
-        setSources={setSources}
-      />
+      <div className="flex-1 h-full">
+        <SavedSources sources={sources} setSources={setSources} />
+      </div>
     </main>
   );
 };

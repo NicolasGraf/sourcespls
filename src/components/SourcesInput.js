@@ -1,48 +1,22 @@
-import { useState } from "react";
 import { Button, Card, Spinner, TextInput } from "flowbite-react";
+import { IoClose } from "react-icons/io5";
 
 const SourcesInputContainer = ({
   handleInputChange,
   sourceUrl,
   onAddSource,
+  isLoading,
+  hasError,
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasError, setHasError] = useState(false);
-
   const handleSubmit = (event) => {
     event.preventDefault();
-    addSource(sourceUrl);
+    onAddSource();
   };
 
-  const addSource = async () => {
-    setIsLoading(true);
-    setHasError(false);
-    try {
-      const response = await fetch(`http://localhost:3030/sources`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          url: sourceUrl,
-        }),
-      });
-      const responseBody = await response.json();
-      if (responseBody.error) {
-        throw responseBody.error;
-      } else {
-        onAddSource(responseBody);
-      }
-    } catch (error) {
-      setHasError(true);
-      console.error("Failed to fetch URL data:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  if (sourceUrl === null) return null;
 
   return (
-    <Card className="mb-4 w-full text-left">
+    <Card className="mb-4 w-full text-left relative">
       <h3 className="text-xl">Enter URL</h3>
       <form onSubmit={handleSubmit}>
         <TextInput
@@ -50,7 +24,8 @@ const SourcesInputContainer = ({
           required
           placeholder={`Enter URL`}
           className="w-full mb-4"
-          onChange={(event) => handleInputChange(event)}
+          value={sourceUrl}
+          onChange={(event) => handleInputChange(event.target.value)}
           color={hasError ? "failure" : "gray"}
           helperText={
             hasError && (
@@ -69,6 +44,10 @@ const SourcesInputContainer = ({
           {isLoading && <Spinner />}
         </div>
       </form>
+      <IoClose
+        onClick={() => handleInputChange(null)}
+        className="text-2xl text-gray-200 cursor-pointer absolute top-4 right-4 z-20"
+      />
     </Card>
   );
 };

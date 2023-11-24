@@ -55,7 +55,7 @@ const ArgumentPage = () => {
   ));
 
   return (
-    <div className="container mx-auto px-4 py-8 text-center dark:text-white">
+    <div className="container max-w-7xl mx-auto px-4 py-8 text-center dark:text-white">
       <div className="flex justify-center mb-8">
         <BsQuote className="text-4xl text-gray-500 inline-block" />
         <h1 className="text-6xl">{argument.title}</h1>
