@@ -2,7 +2,7 @@ import TitleInput from "./TitleInput";
 import AddSourceButton from "./AddSourceButton";
 import { useState } from "react";
 import SourcesInput from "./SourcesInput";
-import { saveSource } from "./lib/apiController";
+import { saveSource } from "../lib/apiController";
 
 const SourceEditor = ({
   sources,
