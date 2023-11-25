@@ -59,6 +59,20 @@ const customTheme = {
       base: "rounded-lg p-2.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none dark:text-gray-400 dark:hover:bg-primary-dark ",
     },
   },
+  footer: {
+    root: {
+      base: "w-full mt-auto bg-white shadow text-primary-dark dark:bg-secondary-dark md:flex md:items-center md:justify-between",
+    },
+    copyright: {
+      base: "text-sm text-primary-dark dark:text-secondary-light sm:text-center",
+      href: "ml-1 hover:underline",
+      span: "ml-1",
+    },
+    icon: {
+      base: "text-primary-dark dark:text-secondary-light hover:text-accent dark:hover:text-accent",
+      size: "h-5 w-5",
+    },
+  },
 };
 
 export default customTheme;

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ArgumentPage from "./pages/ArgumentPage";
 import { Flowbite } from "flowbite-react";
 import customTheme from "./lib/theme";
+import AppFooter from "./components/AppFooter";
 
 function App() {
   const prefersDarkMode = window.matchMedia(
@@ -19,6 +20,7 @@ function App() {
             <Route path="/" element={<MainPage />} />
             <Route path="/:slug" element={<ArgumentPage />} />
           </Routes>
+          <AppFooter />
         </Router>
       </Flowbite>
     </>

@@ -37,7 +37,7 @@ const SourceQuote = ({ source }) => {
         <span className="text-xl md:text-3xl self-start">
           <BiSolidQuoteLeft />
         </span>
-        <span className="bg-yellow-300 dark:text-secondary-dark text-lg px-1">
+        <span className="bg-[#ffed9c] dark:bg-[#dcc76a] dark:text-secondary-dark text-lg px-1">
           {quote}
         </span>
         <span className="text-xl md:text-3xl self-end">

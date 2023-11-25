@@ -17,6 +17,7 @@ const SourceEditor = ({
 
   const onAddSource = (source) => {
     setSourceInputValue("");
+    setQuoteInputValue("");
     setSources([...sources, source]);
   };
 
