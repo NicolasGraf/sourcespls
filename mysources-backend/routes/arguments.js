@@ -44,8 +44,10 @@ router.get("/:slug", async (req, res) => {
     sourcesData.forEach((source) => {
       source.imageUrl = source.image_url;
       source.siteName = source.site_name;
+      source.quoteVerified = source.quote_verified;
       delete source.image_url;
       delete source.site_name;
+      delete source.quote_verified;
     });
 
     res.json({ ...argumentData, sources: sourcesData });

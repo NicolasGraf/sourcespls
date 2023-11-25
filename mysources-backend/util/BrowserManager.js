@@ -29,6 +29,16 @@ const requestFilterAssetsHandler = (request) => {
   }
 };
 
+const verifyQuoteFromContent = (content, quote) => {
+  console.log("quote", quote);
+  if (!quote) return false;
+  const $ = load(content);
+  const text = $("body").text();
+  console.log(text);
+  console.log(quote);
+  return text.includes(quote);
+};
+
 const getInfoFromContent = (content, url) => {
   const $ = load(content);
 
@@ -91,4 +101,5 @@ export {
   closeBrowserInstance,
   requestFilterAssetsHandler,
   getInfoFromContent,
+  verifyQuoteFromContent,
 };

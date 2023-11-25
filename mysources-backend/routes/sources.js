@@ -4,6 +4,7 @@ import {
   getBrowserInstance,
   getInfoFromContent,
   requestFilterAssetsHandler,
+  verifyQuoteFromContent,
 } from "../util/BrowserManager.js";
 
 const router = express.Router();
@@ -13,7 +14,7 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { url } = req.body;
+  const { url, quote } = req.body;
 
   if (!url) {
     return res.status(400).json({ errorMessage: "URL parameter is required." });
@@ -21,7 +22,7 @@ router.post("/", async (req, res) => {
 
   try {
     const parsedUrl = new URL(url);
-    let result = await getInformationFromUrl(parsedUrl.href);
+    let result = await getInformationFromUrl(parsedUrl.href, quote);
     result = { ...result, url: parsedUrl.href };
 
     const sbClient = getSupabaseClient();
@@ -36,6 +37,8 @@ router.post("/", async (req, res) => {
           description: result.description,
           image_url: result.imageUrl,
           icon: result.icon,
+          quote: quote,
+          quote_verified: result.quoteVerified,
         },
       ])
       .select()
@@ -53,10 +56,12 @@ router.post("/", async (req, res) => {
       ...data,
       imageUrl: data.image_url,
       siteName: data.site_name,
+      quoteVerified: data.quote_verified,
     };
 
     delete response.image_url;
     delete response.site_name;
+    delete response.quote_verified;
 
     res.status(201).json(response);
   } catch (error) {
@@ -68,7 +73,7 @@ router.post("/", async (req, res) => {
 });
 
 export default router;
-const getInformationFromUrl = async (url) => {
+const getInformationFromUrl = async (url, quote) => {
   const browser = await getBrowserInstance();
   console.log("got browser instance");
 
@@ -83,10 +88,12 @@ const getInformationFromUrl = async (url) => {
     await page.goto(url, { waitUntil: "networkidle2" });
     const content = await page.content();
     const info = getInfoFromContent(content, url);
+    const quoteVerified = verifyQuoteFromContent(content, quote);
     await page.close();
 
     return {
       url: url,
+      quoteVerified,
       ...info,
     };
   } catch (error) {

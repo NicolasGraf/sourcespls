@@ -11,6 +11,7 @@ const SourceEditor = ({
   setArgumentTitle,
 }) => {
   const [sourceInputValue, setSourceInputValue] = useState(null);
+  const [quoteInputValue, setQuoteInputValue] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
 
@@ -23,7 +24,7 @@ const SourceEditor = ({
     setIsLoading(true);
     setHasError(false);
     try {
-      const responseBody = await saveSource(sourceInputValue);
+      const responseBody = await saveSource(sourceInputValue, quoteInputValue);
       if (responseBody.error) {
         throw responseBody.error;
       } else {
@@ -49,7 +50,8 @@ const SourceEditor = ({
         setSourceInputValue={setSourceInputValue}
       />
       <SourcesInput
-        handleInputChange={setSourceInputValue}
+        setSourceInputValue={setSourceInputValue}
+        setQuoteInputValue={setQuoteInputValue}
         sourceUrl={sourceInputValue}
         onAddSource={addSource}
         isLoading={isLoading}

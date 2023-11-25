@@ -1,6 +1,7 @@
 import { Button, Card } from "flowbite-react";
 import { IoClose } from "react-icons/io5";
 import { FaExternalLinkAlt } from "react-icons/fa";
+import SourceQuote from "./SourceQuote";
 
 const SourceContainer = ({ source, onDelete, editable }) => {
   const { id, url, title, description, imageUrl, siteName, icon } = source;
@@ -17,7 +18,7 @@ const SourceContainer = ({ source, onDelete, editable }) => {
 
   return (
     <Card className="mb-4">
-      <div className="flex flex-row items-start gap-4">
+      <div className="flex flex-col items-start gap-4 relative">
         {hasImage && (
           <img
             className="w-full max-w-[100px] h-full"
@@ -25,7 +26,7 @@ const SourceContainer = ({ source, onDelete, editable }) => {
             alt={title}
           />
         )}
-        <div className="flex-1 text-left flex flex-col gap-2">
+        <div className="text-left flex flex-col gap-2">
           <h4 className="flex items-center">
             <img className="w-4 h-4 mr-2" src={icon} alt={"icon"} />
             <span>{siteName}</span>
@@ -36,7 +37,8 @@ const SourceContainer = ({ source, onDelete, editable }) => {
               {description}
             </p>
           )}
-          <Button className="self-start" onClick={visitUrl}>
+          <SourceQuote source={source} />
+          <Button className="self-start mt-4" onClick={visitUrl}>
             <FaExternalLinkAlt className="mr-2" />
             Visit
           </Button>
@@ -44,7 +46,7 @@ const SourceContainer = ({ source, onDelete, editable }) => {
         {editable && (
           <IoClose
             onClick={() => onDelete(id)}
-            className="text-2xl text-gray-500 cursor-pointer"
+            className="absolute top-0 right-0 text-2xl text-gray-500 cursor-pointer"
           />
         )}
       </div>

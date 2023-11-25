@@ -36,6 +36,24 @@ const customTheme = {
       },
     },
   },
+  textarea: {
+    colors: {
+      primary:
+        "bg-gray-50 border-gray-300 text-gray-900 focus:border-accent focus:ring-accent dark:border-primary-dark dark:bg-secondary-dark dark:text-white dark:placeholder-gray-400 dark:focus:border-accent dark:focus:ring-accent",
+    },
+  },
+  tooltip: {
+    target: "w-max",
+    base: "absolute inline-block z-10 rounded-lg py-2 px-3 text-sm font-medium shadow-sm w-max",
+    style: {
+      auto: "border bg-white text-gray-900 border-accent dark:bg-primary-dark dark:text-white",
+    },
+    arrow: {
+      style: {
+        auto: "border-b border-r bg-white dark:bg-primary-dark border-accent",
+      },
+    },
+  },
 };
 
 function App() {

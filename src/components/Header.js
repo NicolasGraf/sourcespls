@@ -14,7 +14,7 @@ const Header = () => {
               alt="Flowbite React Logo"
             />
             <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-              My Sources
+              Sources Please
             </span>
           </Link>
         </div>

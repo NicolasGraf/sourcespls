@@ -15,7 +15,7 @@ const saveArgument = async ({ argumentTitle, sourceIds }) => {
   return await response.json();
 };
 
-const saveSource = async (url) => {
+const saveSource = async (url, quote) => {
   const response = await fetch(`http://localhost:3030/sources`, {
     method: "POST",
     headers: {
@@ -23,6 +23,7 @@ const saveSource = async (url) => {
     },
     body: JSON.stringify({
       url,
+      quote,
     }),
   });
 
