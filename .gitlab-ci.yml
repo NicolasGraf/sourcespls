@@ -1,0 +1,48 @@
+default:
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+stages:
+  - build-frontend
+  - build-backend
+  - deploy
+
+build-frontend:
+  only:
+    changes:
+      - frontend/**/*
+  stage: build-frontend
+  variables:
+    IMAGE_TAG: $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHORT_SHA
+    LATEST_TAG: $CI_REGISTRY_IMAGE/frontend:latest
+  script:
+    - docker build -t $IMAGE_TAG ./frontend/
+    - docker tag $IMAGE_TAG $LATEST_TAG
+    - docker push $IMAGE_TAG
+    - docker push $LATEST_TAG
+
+build-backend:
+  only:
+    changes:
+      - backend/**/*
+  stage: build-backend
+  variables:
+    IMAGE_TAG: $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA
+    LATEST_TAG: $CI_REGISTRY_IMAGE/backend:latest
+  script:
+    - docker build -t $IMAGE_TAG ./backend/
+    - docker tag $IMAGE_TAG $LATEST_TAG
+    - docker push $IMAGE_TAG
+    - docker push $LATEST_TAG
+
+#deploy_tf:
+#  stage: deploy
+#  only:
+#    changes:
+#      - backend/**/*
+#      - frontend/**/*
+#  trigger:
+#    nckgrf/terraform-iac

@@ -5,6 +5,7 @@ import ArgumentPage from "./pages/ArgumentPage";
 import { Flowbite } from "flowbite-react";
 import customTheme from "./lib/theme";
 import AppFooter from "./components/AppFooter";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   const prefersDarkMode = window.matchMedia(
@@ -18,6 +19,7 @@ function App() {
           <Header />
           <Routes>
             <Route path="/" element={<MainPage />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/:slug" element={<ArgumentPage />} />
           </Routes>
           <AppFooter />
