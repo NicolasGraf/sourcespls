@@ -8,7 +8,7 @@ const TitleInput = ({ title, onChange }) => {
       color="primary"
       sizing="lg"
       className="mb-4"
-      placeholder="Topic of the argument"
+      placeholder={'Title, e.g. "Elon Musk was wrong on..."'}
       onChange={(e) => onChange(e.target.value)}
       value={title}
     />

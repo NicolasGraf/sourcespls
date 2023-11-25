@@ -11,7 +11,11 @@ const SavedSources = ({ sources, setSources }) => {
   return (
     <div className="">
       <h2 className="text-2xl mb-4">Preview</h2>
-      {noSources && <p className="text-gray-500 mb-4">No sources added yet.</p>}
+      {noSources && (
+        <p className="mb-4 text-secondary-light brightness-50">
+          No sources added yet.
+        </p>
+      )}
       {!noSources &&
         sources.map((source) => (
           <SourceContainer

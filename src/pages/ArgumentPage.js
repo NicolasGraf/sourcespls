@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import SourceContainer from "./SourceContainer";
+import SourceContainer from "../components/SourceContainer";
 import { BsQuote } from "react-icons/bs";
-import LoadingArgument from "./LoadingArgument";
-import ArgumentError from "./ArgumentError";
+import LoadingArgument from "../components/LoadingArgument";
+import ArgumentError from "../components/ArgumentError";
 
 const ArgumentPage = () => {
   const { slug } = useParams();

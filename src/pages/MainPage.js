@@ -1,11 +1,11 @@
-import SavedSources from "./SavedSources";
+import SavedSources from "../components/SavedSources";
 import { useState } from "react";
-import Separator from "./Separator";
-import SourceEditor from "./SourceEditor";
+import Separator from "../components/Separator";
+import SourceEditor from "../components/SourceEditor";
 import { saveArgument } from "../lib/apiController";
-import LinkCreator from "./LinkCreator";
+import LinkCreator from "../components/LinkCreator";
 
-export const MainContent = () => {
+export const MainPage = () => {
   const [sources, setSources] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [argumentTitle, setArgumentTitle] = useState("");
