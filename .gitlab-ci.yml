@@ -38,11 +38,11 @@ build-backend:
     - docker push $IMAGE_TAG
     - docker push $LATEST_TAG
 
-#deploy_tf:
-#  stage: deploy
-#  only:
-#    changes:
-#      - backend/**/*
-#      - frontend/**/*
-#  trigger:
-#    nckgrf/terraform-iac
+deploy_tf:
+  stage: deploy
+  only:
+    changes:
+      - backend/**/*
+      - frontend/**/*
+  trigger:
+    nckgrf/terraform-iac
