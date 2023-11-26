@@ -1,30 +1,29 @@
 FROM node:18
+RUN apt-get update \
+    && apt-get install -y wget gnupg \
+    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
+    && apt-get update \
+    && apt-get install -y google-chrome-stable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf libxss1 \
+      --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci --omit=dev
 
-RUN apt-get update && apt-get install -y \
-    wget \
-    gnupg \
-    ca-certificates \
-    procps \
-    libxss1 \
-    libnss3 \
-    fonts-liberation \
-    libfontconfig1 \
-    libasound2 \
-    libatk-bridge2.0-0 \
-    libatspi2.0-0 \
-    libdrm2 \
-    libgbm1 \
-    libgtk-3-0 \
-    libx11-xcb1 \
-    libxtst6 \
-    xdg-utils \
-    --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/*
+RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
+   && mkdir -p /home/pptruser/Downloads \
+   && chown -R pptruser:pptruser /home/pptruser \
+   && chown -R pptruser:pptruser /node_modules \
+   && chown -R pptruser:pptruser /package.json \
+   && chown -R pptruser:pptruser /package-lock.json \
+   && chown -R pptruser:pptruser /app
 
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD false
 COPY . .
+
+USER pptruser
 
 ENV NODE_ENV production
 ENV PORT 3000
