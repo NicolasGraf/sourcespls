@@ -1,11 +1,12 @@
 import puppeteer from "puppeteer";
-import { load } from "cheerio";
+import {load} from "cheerio";
 
 let browser;
 
 const getBrowserInstance = async () => {
   if (!browser) {
     browser = await puppeteer.launch({
+      executablePath: '/usr/bin/google-chrome',
       headless: "new",
     });
   }
