@@ -1,4 +1,5 @@
 FROM node:18
+WORKDIR /
 RUN apt-get update \
     && apt-get install -y wget gnupg \
     && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
@@ -8,7 +9,6 @@ RUN apt-get update \
       --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /app
 COPY package*.json ./
 RUN npm ci --omit=dev
 
@@ -17,8 +17,7 @@ RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
    && chown -R pptruser:pptruser /home/pptruser \
    && chown -R pptruser:pptruser /node_modules \
    && chown -R pptruser:pptruser /package.json \
-   && chown -R pptruser:pptruser /package-lock.json \
-   && chown -R pptruser:pptruser /app
+   && chown -R pptruser:pptruser /package-lock.json
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD false
 COPY . .
