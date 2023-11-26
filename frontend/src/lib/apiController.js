@@ -1,10 +1,15 @@
+const API_URL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3030"
+    : "https://api.sourcespls.com";
+
 const saveArgument = async ({ argumentTitle, sourceIds }) => {
   const body = {
     title: argumentTitle,
     sourceIds,
   };
 
-  const response = await fetch(`http://localhost:3030/arguments`, {
+  const response = await fetch(`${API_URL}/arguments`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -16,7 +21,7 @@ const saveArgument = async ({ argumentTitle, sourceIds }) => {
 };
 
 const saveSource = async (url, quote) => {
-  const response = await fetch(`http://localhost:3030/sources`, {
+  const response = await fetch(`${API_URL}/sources`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
