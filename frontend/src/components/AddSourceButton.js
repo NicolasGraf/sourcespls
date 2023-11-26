@@ -11,7 +11,7 @@ const AddSourceButton = ({
   return (
     <>
       <Button
-        className="mb-4 w-full"
+        className="mb-4"
         disabled={!hasTitle}
         onClick={() => setSourceInputValue("")}
       >

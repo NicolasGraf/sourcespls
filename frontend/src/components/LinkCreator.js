@@ -6,7 +6,7 @@ const LinkCreator = ({ addArgument, isLoading, createdLink, hasSources }) => {
     <>
       <Button
         disabled={!hasSources}
-        className="w-full mb-4"
+        className="mb-4"
         onClick={() => addArgument()}
       >
         Create Link
