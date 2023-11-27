@@ -60,7 +60,6 @@ router.get("/:slug", async (req, res) => {
 // POST
 router.post("/", resolveToken, async (req, res) => {
   const { title, sourceIds } = req.body;
-  console.log(req.user);
   const user_id = req.user ? req.user.id : null;
 
   try {

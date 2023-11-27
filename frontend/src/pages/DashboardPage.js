@@ -3,6 +3,7 @@ import { useAuth } from "../lib/authProvider";
 import { getAllArguments } from "../lib/apiController";
 import PersonalArgumentList from "../components/PersonalArgumentList";
 import SavedSources from "../components/SavedSources";
+import Separator from "../components/Separator";
 
 const DashboardPage = () => {
   const { session } = useAuth();
@@ -19,12 +20,12 @@ const DashboardPage = () => {
       setLoading(false);
     };
     getArguments(session);
-  }, []);
+  }, [session]);
 
   useEffect(() => {
     if (userArguments.length === 0) return;
     setSources(userArguments[selectedArgument].sources);
-  }, [selectedArgument]);
+  }, [userArguments, selectedArgument]);
 
   return (
     <main className="container mx-auto px-4 py-8 text-center dark:text-primary-light md:flex md:flex-row md:flex-wrap gap-4">
@@ -37,6 +38,7 @@ const DashboardPage = () => {
           onSelect={setSelectedArgument}
         />
       </div>
+      <Separator />
       <div className="flex-1">
         {!loading && <SavedSources sources={sources} setSources={setSources} />}
       </div>

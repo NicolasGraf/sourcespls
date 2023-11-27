@@ -109,7 +109,7 @@ const updateArgument = async (userId, slug, title, sourceIds) => {
   if (!title) {
     return { error: { errorMessage: "Title parameter is required." } };
   }
-  if (!Array.isArray(sourceIds) || sourceIds.length === 0) {
+  if (!Array.isArray(sourceIds)) {
     return { error: { errorMessage: "SourceIds parameter is required." } };
   }
 
