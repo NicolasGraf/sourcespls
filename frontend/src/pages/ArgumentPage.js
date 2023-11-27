@@ -9,12 +9,11 @@ import { getArgumentBySlug } from "../lib/apiController";
 const ArgumentPage = () => {
   const { slug } = useParams();
   const [argument, setArgument] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const getArgument = async () => {
-      setIsLoading(true);
       setError(null);
 
       const { data, error } = await getArgumentBySlug(slug);
@@ -36,10 +35,6 @@ const ArgumentPage = () => {
 
   if (error) {
     return <ArgumentError />;
-  }
-
-  if (!argument) {
-    return null;
   }
 
   const sources = argument.sources.map((source) => (

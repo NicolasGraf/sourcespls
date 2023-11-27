@@ -1,5 +1,6 @@
 import express from "express";
-import { insertSource } from "./controller/sourcesController.js";
+import { deleteSource, insertSource } from "./controller/sourcesController.js";
+import { resolveToken } from "../util/AuthMiddleware.js";
 
 const router = express.Router();
 
@@ -10,6 +11,19 @@ router.post("/", async (req, res, next) => {
     const parsedUrl = new URL(url);
     const { data } = await insertSource(parsedUrl, quote);
     res.status(201).json({ data });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete("/:id", resolveToken, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    console.log(req.user);
+    const userId = req.user ? req.user.id : null;
+
+    const { data } = await deleteSource(id, userId);
+    res.status(200).json({ data });
   } catch (error) {
     next(error);
   }

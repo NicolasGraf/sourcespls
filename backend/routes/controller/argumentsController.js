@@ -136,9 +136,25 @@ const updateArgument = async (userId, slug, title, sourceIds) => {
   return { data };
 };
 
+const deleteArgumentById = async (id, userId) => {
+  const sbClient = getSupabaseClient();
+
+  const { data, error: deleteError } = await sbClient
+    .from("arguments")
+    .delete()
+    .eq("id", id)
+    .eq("user_id", userId)
+    .select();
+
+  if (deleteError) throw deleteError;
+
+  return { data };
+};
+
 export {
   getArgumentBySlug,
   insertArgument,
   updateArgument,
   getAllArgumentsByUserId,
+  deleteArgumentById,
 };

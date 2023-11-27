@@ -47,6 +47,45 @@ const insertSource = async (url, quote) => {
   return { data: responseData };
 };
 
+const deleteSource = async (id, userId) => {
+  const sbClient = getSupabaseClient();
+  const { data: source, error } = await sbClient
+    .from("sources")
+    .select()
+    .match({ id: id })
+    .single();
+
+  const { data: userArgument } = await sbClient
+    .from("arguments")
+    .select()
+    .match({ id: source.argument_id })
+    .single();
+
+  if (!userArgument || userArgument.user_id === null) {
+    const { data, error } = await sbClient
+      .from("sources")
+      .delete()
+      .match({ id: id });
+
+    if (error) throw error;
+    return { data };
+  }
+
+  console.log(userArgument.user_id, userId);
+
+  if (userArgument.user_id !== userId) {
+    throw { status: 403, message: "Source does not belong to user." };
+  } else {
+    const { data, error } = await sbClient
+      .from("sources")
+      .delete()
+      .match({ id: id });
+
+    if (error) throw error;
+    return { data };
+  }
+};
+
 const getInformationFromUrl = async (url, quote) => {
   const browser = await getBrowserInstance();
   console.log("got browser instance");
@@ -75,4 +114,4 @@ const getInformationFromUrl = async (url, quote) => {
   }
 };
 
-export { insertSource };
+export { insertSource, deleteSource };

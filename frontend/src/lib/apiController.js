@@ -123,10 +123,56 @@ const getArgumentBySlug = async (slug) => {
   }
 };
 
+const deleteSourceById = async (id, session) => {
+  try {
+    let headers = {
+      "Content-Type": "application/json",
+    };
+    if (session) {
+      headers["Authorization"] = `Bearer ${session.access_token}`;
+    }
+    const response = await fetch(`${API_URL}/sources/${id}`, {
+      method: "DELETE",
+      headers,
+    });
+
+    const { data, error } = await response.json();
+    if (error) throw error;
+    return { data };
+  } catch (error) {
+    console.error(error);
+    return { error };
+  }
+};
+
+const deleteArgumentById = async (id, session) => {
+  try {
+    let headers = {
+      "Content-Type": "application/json",
+    };
+    if (session) {
+      headers["Authorization"] = `Bearer ${session.access_token}`;
+    }
+    const response = await fetch(`${API_URL}/arguments/${id}`, {
+      method: "DELETE",
+      headers,
+    });
+
+    const { data, error } = await response.json();
+    if (error) throw error;
+    return { data };
+  } catch (error) {
+    console.error(error);
+    return { error };
+  }
+};
+
 export {
   saveArgument,
   saveSource,
   getAllArguments,
   updateArgument,
   getArgumentBySlug,
+  deleteSourceById,
+  deleteArgumentById,
 };

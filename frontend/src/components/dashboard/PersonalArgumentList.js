@@ -14,6 +14,7 @@ const PersonalArgumentList = ({
 
   return (
     <div className="flex flex-col w-full gap-4">
+      {userArguments.length === 0 && <p>No saved arguments</p>}
       {userArguments.map((argument, index) => (
         <ArgumentItem
           key={argument.id}

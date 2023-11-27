@@ -11,7 +11,6 @@ const DashboardPage = () => {
   const [selectedArgument, setSelectedArgument] = useState(null);
   const [sources, setSources] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     const getArguments = async (session) => {
@@ -33,6 +32,7 @@ const DashboardPage = () => {
   }, [userArguments, selectedArgument]);
 
   const onSetSources = (sources) => {
+    console.log(sources);
     const newArguments = [...userArguments];
     newArguments[selectedArgument].sources = sources;
     setUserArguments(newArguments);
@@ -47,7 +47,6 @@ const DashboardPage = () => {
           userArguments={userArguments}
           selectedArgument={selectedArgument}
           onSelect={setSelectedArgument}
-          setIsEditing={setIsEditing}
         />
       </div>
       <SeparatorResponsive />
@@ -56,7 +55,7 @@ const DashboardPage = () => {
           <PreviewSources
             sources={sources}
             setSources={onSetSources}
-            editable={isEditing}
+            editable={true}
           />
         )}
       </div>

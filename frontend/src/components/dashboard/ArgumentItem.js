@@ -3,10 +3,10 @@ import { AiFillEdit } from "react-icons/ai";
 import ArgumentEditArea from "./ArgumentEditArea";
 import { useAuth } from "../../lib/authProvider";
 import { updateArgument } from "../../lib/apiController";
-import { Card } from "flowbite-react";
+import { Card, Spinner } from "flowbite-react";
 import ArgumentLink from "./ArgumentLink";
 
-const ArgumentItem = ({ argument, isActive, onSelect, setIsEditing }) => {
+const ArgumentItem = ({ argument, isActive, onSelect }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { session } = useAuth();
   const { title, slug } = argument;
@@ -19,7 +19,6 @@ const ArgumentItem = ({ argument, isActive, onSelect, setIsEditing }) => {
     if (!controlRef.current) return;
     if (controlRef.current.contains(event.target)) return;
 
-    setIsEditing(false);
     setIsLocalEditing(false);
   };
 
@@ -29,11 +28,6 @@ const ArgumentItem = ({ argument, isActive, onSelect, setIsEditing }) => {
       document.removeEventListener("click", handleClickOutside, true);
     };
   });
-
-  const onEdit = () => {
-    setIsEditing(true);
-    setIsLocalEditing(true);
-  };
 
   useEffect(() => {
     if (isLocalEditing) {
@@ -50,14 +44,12 @@ const ArgumentItem = ({ argument, isActive, onSelect, setIsEditing }) => {
 
     const { data } = await updateArgument({
       slug,
-      argumentTitle: argumentTitle,
+      argumentTitle,
       sourceIds,
       session,
     });
 
-    console.log(data);
     setIsLoading(false);
-    setIsEditing(false);
     setIsLocalEditing(false);
   };
 
@@ -84,12 +76,15 @@ const ArgumentItem = ({ argument, isActive, onSelect, setIsEditing }) => {
         <ArgumentLink url={fullUrl} />
         {!isLocalEditing && (
           <AiFillEdit
-            onClick={() => onEdit()}
+            onClick={() => setIsLocalEditing(true)}
             className="hidden absolute top-4 right-4 group-hover:block cursor-pointer"
           />
         )}
-        {isLocalEditing && (
-          <ArgumentEditArea isLoading={isLoading} saveArgument={onSave} />
+        {isLocalEditing && <ArgumentEditArea saveArgument={onSave} />}
+        {isLoading && (
+          <span className="absolute">
+            <Spinner />
+          </span>
         )}
       </Card>
     </div>

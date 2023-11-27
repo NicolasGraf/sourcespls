@@ -1,6 +1,7 @@
 import express from "express";
 import { checkAuth, resolveToken } from "../util/AuthMiddleware.js";
 import {
+  deleteArgumentById,
   getAllArgumentsByUserId,
   getArgumentBySlug,
   insertArgument,
@@ -56,6 +57,18 @@ router.put("/:slug", checkAuth, async (req, res, next) => {
     const { data } = await updateArgument(userId, slug, title, sourceIds);
 
     res.json({ data });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete("/:id", checkAuth, async (req, res, next) => {
+  const { id } = req.params;
+  const { id: userId } = req.user;
+
+  try {
+    const { data } = await deleteArgumentById(id, userId);
+    res.status(200).json({ data });
   } catch (error) {
     next(error);
   }

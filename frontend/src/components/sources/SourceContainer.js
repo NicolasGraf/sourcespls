@@ -2,15 +2,10 @@ import { Button, Card } from "flowbite-react";
 import { IoClose } from "react-icons/io5";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import SourceQuote from "./SourceQuote";
+import SourceImage from "./SourceImage";
 
 const SourceContainer = ({ source, onDelete, editable }) => {
   const { id, url, title, description, imageUrl, siteName, icon } = source;
-  let image = new Image();
-  let hasImage = false;
-  if (imageUrl) {
-    image.src = imageUrl;
-    hasImage = true;
-  }
 
   const visitUrl = () => {
     window.open(url, "_blank");
@@ -19,13 +14,7 @@ const SourceContainer = ({ source, onDelete, editable }) => {
   return (
     <Card className="mb-4">
       <div className="flex flex-col items-start gap-4 relative">
-        {hasImage && (
-          <img
-            className="w-full max-w-[100px] h-full"
-            src={image.src}
-            alt={title}
-          />
-        )}
+        <SourceImage imageUrl={imageUrl} title={title}></SourceImage>
         <div className="text-left flex flex-col gap-2">
           <h4 className="flex items-center">
             <img className="w-4 h-4 mr-2" src={icon} alt={"icon"} />

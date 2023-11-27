@@ -1,4 +1,4 @@
-import { Button, Spinner } from "flowbite-react";
+import { Button } from "flowbite-react";
 import { useState } from "react";
 import SourceEditorForm from "../sources/SourceEditorForm";
 
@@ -29,12 +29,6 @@ const ArgumentEditArea = ({ isLoading, saveArgument }) => {
       <div className="flex gap-2 items-end mt-4 justify-start">
         <Button onClick={saveArgument}>Save</Button>
         <Button onClick={addSource}>Add Source</Button>
-
-        {isLoading && (
-          <span className="ml-auto">
-            <Spinner />
-          </span>
-        )}
       </div>
     </div>
   );
