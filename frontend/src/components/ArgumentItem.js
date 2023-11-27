@@ -1,29 +1,48 @@
 import { useEffect, useRef, useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
 import ArgumentEditArea from "./ArgumentEditArea";
-import { BiCopy } from "react-icons/bi";
-import { FaExternalLinkAlt } from "react-icons/fa";
 import { useAuth } from "../lib/authProvider";
 import { updateArgument } from "../lib/apiController";
+import { Card } from "flowbite-react";
+import ArgumentLink from "./ArgumentLink";
 
-const ArgumentItem = ({ argument, isActive, onSelect }) => {
-  const [isEditing, setIsEditing] = useState(false);
+const ArgumentItem = ({ argument, isActive, onSelect, setIsEditing }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { session } = useAuth();
   const { title, slug } = argument;
   const fullUrl = `${window.location.origin}/${slug}`;
   const titleRef = useRef();
+  const [isLocalEditing, setIsLocalEditing] = useState(false);
+  const controlRef = useRef();
 
-  const onEdit = () => {
-    setIsEditing(true);
+  const handleClickOutside = (event) => {
+    if (!controlRef.current) return;
+    console.log(controlRef.current.contains(event.target));
+    console.log(event.target);
+    if (controlRef.current.contains(event.target)) return;
+
+    setIsEditing(false);
+    setIsLocalEditing(false);
   };
 
   useEffect(() => {
-    if (isEditing) {
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  });
+
+  const onEdit = () => {
+    setIsEditing(true);
+    setIsLocalEditing(true);
+  };
+
+  useEffect(() => {
+    if (isLocalEditing) {
       titleRef.current.focus();
     }
     titleRef.current.textContent = title;
-  }, [isEditing]);
+  }, [isLocalEditing]);
 
   const onSave = async () => {
     const sourceIds = argument.sources.map((source) => source.id);
@@ -41,49 +60,40 @@ const ArgumentItem = ({ argument, isActive, onSelect }) => {
     console.log(data);
     setIsLoading(false);
     setIsEditing(false);
+    setIsLocalEditing(false);
   };
 
-  const onVisit = () => {
-    window.open(fullUrl, "_blank");
+  const onTitleInputChanged = (e) => {
+    argument.title = e.target.innerText;
   };
 
   return (
-    <div
-      className={`${
-        isActive ? "border-accent" : "border-secondary-light"
-      } p-4 shadow-md relative group text-left w-full rounded-md border dark:bg-secondary-dark`}
-      onClick={onSelect}
-    >
-      <h5
-        ref={titleRef}
-        className="text-xl mb-4"
-        contentEditable={isEditing}
-        onInput={(e) => {
-          argument.title = e.target.innerText;
-        }}
-      ></h5>
-      <div className="flex gap-2">
-        <p className="font-bold">{fullUrl}</p>
-        <BiCopy
-          onClick={null}
-          className="relative text-2xl text-primary-dark dark:text-secondary-light cursor-pointer active:top-0.5"
-        />
-        <FaExternalLinkAlt
-          onClick={onVisit}
-          className="relative text-xl text-primary-dark dark:text-secondary-light cursor-pointer active:top-0.5"
-        />
-      </div>
-
-      {!isEditing && (
-        <AiFillEdit
-          onClick={() => onEdit()}
-          className="hidden absolute top-4 right-4 group-hover:block cursor-pointer"
-        />
-      )}
-
-      {isEditing && (
-        <ArgumentEditArea isLoading={isLoading} saveArgument={onSave} />
-      )}
+    <div ref={controlRef}>
+      <Card
+        className={`text-left group relative ${
+          isActive
+            ? "border-accent dark:border-accent"
+            : "border-secondary-light "
+        }`}
+        onClick={onSelect}
+      >
+        <h5
+          ref={titleRef}
+          className="text-xl mb-4"
+          contentEditable={isLocalEditing}
+          onInput={onTitleInputChanged}
+        ></h5>
+        <ArgumentLink url={fullUrl} />
+        {!isLocalEditing && (
+          <AiFillEdit
+            onClick={() => onEdit()}
+            className="hidden absolute top-4 right-4 group-hover:block cursor-pointer"
+          />
+        )}
+        {isLocalEditing && (
+          <ArgumentEditArea isLoading={isLoading} saveArgument={onSave} />
+        )}
+      </Card>
     </div>
   );
 };

@@ -121,22 +121,34 @@ const updateArgument = async (userId, slug, title, sourceIds) => {
       .update({ title })
       .eq("user_id", userId)
       .eq("slug", slug)
-      .select();
+      .select()
+      .single();
+
+    console.log(data);
 
     if (updateError) throw updateError;
 
-    const updatedArgumentId = data.id;
-
-    const { error: sourcesError } = await Promise.all(
-      sourceIds.map((sourceId) =>
-        sbClient
-          .from("sources")
-          .update({ argument_id: updatedArgumentId })
-          .eq("id", sourceId),
-      ),
-    );
+    // get sources from argument, and delete the ones that are not in the sourceIds array
+    const { data: sourcesData, error: sourcesError } = await sbClient
+      .from("sources")
+      .select()
+      .eq("argument_id", data.id);
 
     if (sourcesError) throw sourcesError;
+
+    const sourcesToDelete = sourcesData.filter(
+      (source) => !sourceIds.includes(source.id),
+    );
+
+    const { error: deleteSourcesError } = await sbClient
+      .from("sources")
+      .delete()
+      .in(
+        "id",
+        sourcesToDelete.map((source) => source.id),
+      );
+
+    if (deleteSourcesError) throw deleteSourcesError;
     return { data };
   } catch (error) {
     return { error: error };

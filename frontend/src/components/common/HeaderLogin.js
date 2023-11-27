@@ -1,4 +1,4 @@
-import { useAuth } from "../lib/authProvider";
+import { useAuth } from "../../lib/authProvider";
 import { Button } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 

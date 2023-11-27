@@ -1,20 +1,24 @@
-import SavedSources from "../components/SavedSources";
-import { useState } from "react";
-import Separator from "../components/Separator";
-import SourceEditor from "../components/SourceEditor";
+import PreviewSources from "../components/PreviewSources";
+import SeparatorResponsive from "../components/common/SeparatorResponsive";
+import MainArgumentEditor from "../components/MainArgumentEditor";
 import { saveArgument } from "../lib/apiController";
 import LinkCreator from "../components/LinkCreator";
 import { useAuth } from "../lib/authProvider";
+import Separator from "../components/Seperator";
+import { useMainPageContext } from "../lib/mainPageContext";
 
 export const MainPage = () => {
-  const [sources, setSources] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [argumentTitle, setArgumentTitle] = useState("");
-  const [createdLink, setCreatedLink] = useState(null);
   const { session } = useAuth();
-  const addArgument = async () => {
+  const {
+    setIsLinkLoading,
+    sources,
+    setSources,
+    argumentTitle,
+    setCreatedLink,
+  } = useMainPageContext();
+  const createArgument = async () => {
     const sourceIds = sources.map((source) => source.id);
-    setIsLoading(true);
+    setIsLinkLoading(true);
     try {
       const responseBody = await saveArgument({
         argumentTitle,
@@ -26,7 +30,7 @@ export const MainPage = () => {
     } catch (error) {
       console.error("Failed to fetch URL data:", error);
     } finally {
-      setIsLoading(false);
+      setIsLinkLoading(false);
     }
   };
 
@@ -37,24 +41,17 @@ export const MainPage = () => {
         Back up your argument with real sources to prove your point.
       </h2>
       <div className="flex-1">
-        <SourceEditor
-          argumentTitle={argumentTitle}
-          setArgumentTitle={setArgumentTitle}
+        <MainArgumentEditor />
+        <Separator />
+        <LinkCreator createLink={createArgument} />
+      </div>
+      <SeparatorResponsive />
+      <div className="flex-1 h-full">
+        <PreviewSources
           sources={sources}
           setSources={setSources}
+          editable={true}
         />
-        <hr className="h-0.5 border-primary-dark dark:border-secondary-light dark:brightness-50 my-8" />
-        <LinkCreator
-          addArgument={addArgument}
-          createdLink={createdLink}
-          isLoading={isLoading}
-          hasSources={sources.length !== 0}
-        />
-      </div>
-
-      <Separator />
-      <div className="flex-1 h-full">
-        <SavedSources sources={sources} setSources={setSources} />
       </div>
     </main>
   );

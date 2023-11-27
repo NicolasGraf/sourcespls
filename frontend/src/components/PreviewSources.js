@@ -1,6 +1,6 @@
 import SourceContainer from "./SourceContainer";
 
-const SavedSources = ({ sources, setSources }) => {
+const PreviewSources = ({ sources, setSources, editable }) => {
   const noSources = sources.length === 0;
 
   const onDelete = (id) => {
@@ -9,7 +9,7 @@ const SavedSources = ({ sources, setSources }) => {
   };
 
   return (
-    <div className="">
+    <div>
       <h2 className="text-2xl mb-4">Preview</h2>
       {noSources && (
         <p className="mb-4 text-secondary-light brightness-50">
@@ -22,11 +22,11 @@ const SavedSources = ({ sources, setSources }) => {
             key={source.id}
             source={source}
             onDelete={() => onDelete(source.id)}
-            editable={true}
+            editable={editable}
           />
         ))}
     </div>
   );
 };
 
-export default SavedSources;
+export default PreviewSources;

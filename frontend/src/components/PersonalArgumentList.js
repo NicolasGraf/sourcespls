@@ -6,6 +6,7 @@ const PersonalArgumentList = ({
   loading,
   selectedArgument,
   onSelect,
+  setIsEditing,
 }) => {
   if (loading) {
     return <Spinner />;
@@ -19,6 +20,7 @@ const PersonalArgumentList = ({
           argument={argument}
           isActive={index === selectedArgument}
           onSelect={() => onSelect(index)}
+          setIsEditing={setIsEditing}
         />
       ))}
     </div>
