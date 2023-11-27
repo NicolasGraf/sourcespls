@@ -4,6 +4,12 @@ const customTheme = {
     color: {
       info: "bg-accent hover:brightness-90 dark:focus:ring-secondary-dark",
     },
+    outline: {
+      color: {
+        info: "p-0.5",
+      },
+      on: "flex justify-center bg-white transition-all duration-75 ease-in dark:bg-primary-dark w-full",
+    },
   },
   navbar: {
     root: {
