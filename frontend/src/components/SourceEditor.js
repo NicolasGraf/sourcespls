@@ -15,21 +15,26 @@ const SourceEditor = ({
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
 
-  const onAddSource = (source) => {
+  const saveSourceResponse = (source) => {
     setSourceInputValue("");
     setQuoteInputValue("");
     setSources([...sources, source]);
   };
 
-  const addSource = async () => {
+  const onAddSource = () => {
+    setSourceInputValue("");
+    setQuoteInputValue("");
+  };
+
+  const onSaveSource = async () => {
     setIsLoading(true);
     setHasError(false);
     try {
       const responseBody = await saveSource(sourceInputValue, quoteInputValue);
-      if (responseBody.error) {
+      if (responseBody.error || responseBody.errorMessage) {
         throw responseBody.error;
       } else {
-        onAddSource(responseBody);
+        saveSourceResponse(responseBody);
       }
     } catch (error) {
       setHasError(true);
@@ -48,13 +53,14 @@ const SourceEditor = ({
       <AddSourceButton
         hasTitle={argumentTitle !== ""}
         sourceInputValue={sourceInputValue}
-        setSourceInputValue={setSourceInputValue}
+        addSource={onAddSource}
       />
       <SourcesInput
         setSourceInputValue={setSourceInputValue}
         setQuoteInputValue={setQuoteInputValue}
+        quoteInputValue={quoteInputValue}
         sourceUrl={sourceInputValue}
-        onAddSource={addSource}
+        saveSource={onSaveSource}
         isLoading={isLoading}
         hasError={hasError}
       />

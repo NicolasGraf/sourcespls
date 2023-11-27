@@ -33,7 +33,7 @@ const SourceQuote = ({ source }) => {
   };
   return (
     <div className="text-primary-dark dark:text-secondary-light mt-4">
-      <p className="flex flex-col md:flex-row items-center gap-2">
+      <div className="flex flex-col md:flex-row items-center gap-2">
         <span className="text-xl md:text-3xl self-start">
           <BiSolidQuoteLeft />
         </span>
@@ -43,8 +43,8 @@ const SourceQuote = ({ source }) => {
         <span className="text-xl md:text-3xl self-end">
           <BiSolidQuoteRight />
         </span>
-        <div className="self-start">{getVerifiedQuoteIcon()}</div>
-      </p>
+        <p className="self-start">{getVerifiedQuoteIcon()}</p>
+      </div>
     </div>
   );
 };

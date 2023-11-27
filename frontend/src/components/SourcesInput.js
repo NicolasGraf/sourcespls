@@ -4,14 +4,15 @@ import { IoClose } from "react-icons/io5";
 const SourcesInputContainer = ({
   setSourceInputValue,
   setQuoteInputValue,
+  quoteInputValue,
   sourceUrl,
-  onAddSource,
+  saveSource,
   isLoading,
   hasError,
 }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
-    onAddSource();
+    saveSource();
   };
 
   if (sourceUrl === null) return null;
@@ -36,6 +37,7 @@ const SourcesInputContainer = ({
         />
         <Textarea
           color="primary"
+          value={quoteInputValue}
           className="w-full mb-4"
           placeholder="Add a quote from the source"
           rows={4}
@@ -54,7 +56,7 @@ const SourcesInputContainer = ({
       </form>
       <IoClose
         onClick={() => setSourceInputValue(null)}
-        className="text-2xl text-gray-200 cursor-pointer absolute top-4 right-4 z-20"
+        className="text-2xl text-gray-500 cursor-pointer absolute top-4 right-4 z-20"
       />
     </Card>
   );

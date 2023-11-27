@@ -3,10 +3,12 @@ import {load} from "cheerio";
 
 let browser;
 
+const execPath = process.env.NODE_ENV === "production" ? "/usr/bin/google-chrome" : undefined;
+
 const getBrowserInstance = async () => {
   if (!browser) {
     browser = await puppeteer.launch({
-      executablePath: '/usr/bin/google-chrome',
+      executablePath: execPath,
       headless: "new",
     });
   }
