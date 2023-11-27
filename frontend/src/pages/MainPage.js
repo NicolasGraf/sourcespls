@@ -4,18 +4,23 @@ import Separator from "../components/Separator";
 import SourceEditor from "../components/SourceEditor";
 import { saveArgument } from "../lib/apiController";
 import LinkCreator from "../components/LinkCreator";
+import { useAuth } from "../lib/authProvider";
 
 export const MainPage = () => {
   const [sources, setSources] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [argumentTitle, setArgumentTitle] = useState("");
   const [createdLink, setCreatedLink] = useState(null);
-
+  const { session } = useAuth();
   const addArgument = async () => {
     const sourceIds = sources.map((source) => source.id);
     setIsLoading(true);
     try {
-      const responseBody = await saveArgument({ argumentTitle, sourceIds });
+      const responseBody = await saveArgument({
+        argumentTitle,
+        sourceIds,
+        session,
+      });
       const host = window.location.origin;
       setCreatedLink(`${host}/${responseBody.slug}`);
     } catch (error) {

@@ -1,12 +1,36 @@
 import express from "express";
-import {nanoid} from "nanoid";
-import {getSupabaseClient} from "../util/SupabaseManager.js";
+import { checkAuth, resolveToken } from "../util/AuthMiddleware.js";
+import {
+  getAllArgumentsByUserId,
+  getArgumentBySlug,
+  insertArgument,
+  updateArgument,
+} from "./controller/argumentsController.js";
 
 const router = express.Router();
 
 // GET
-router.get("/", async (req, res) => {
-  res.send({ title: "Express" });
+router.get("/", checkAuth, async (req, res) => {
+  const { user } = req;
+  console.log(user);
+  const { id: userId } = user;
+
+  try {
+    const { data, error } = await getAllArgumentsByUserId(userId);
+
+    if (error) {
+      console.error("argument error:", error);
+      return res.status(400).json({
+        errorMessage: "Couldn't get argument.",
+        details: error.message,
+      });
+    }
+
+    res.json({ data });
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    res.status(500).json({ errorMessage: "Server error occurred." });
+  }
 });
 
 // GET BY SLUG
@@ -14,104 +38,70 @@ router.get("/:slug", async (req, res) => {
   const { slug } = req.params;
 
   try {
-    const sbClient = getSupabaseClient();
+    const { data, error } = await getArgumentBySlug(slug);
 
-    const { data: argumentData, error: argumentError } = await sbClient
-      .from("arguments")
-      .select()
-      .eq("slug", slug)
-      .single();
-
-    if (argumentError) {
-      console.error("argument error:", argumentError);
+    if (error) {
+      console.error("argument error:", error);
       return res.status(400).json({
         errorMessage: "Couldn't get argument.",
-        details: argumentError.message,
+        details: error.message,
       });
     }
 
-    const { data: sourcesData, error: sourcesError } = await sbClient
-      .from("sources")
-      .select()
-      .eq("argument_id", argumentData.id);
-
-    if (sourcesError) {
-      console.error("sources error:", sourcesError);
-      return res.status(400).json({
-        errorMessage: "Couldn't get sources.",
-        details: sourcesError.message,
-      });
-    }
-
-    sourcesData.forEach((source) => {
-      source.imageUrl = source.image_url;
-      source.siteName = source.site_name;
-      source.quoteVerified = source.quote_verified;
-      delete source.image_url;
-      delete source.site_name;
-      delete source.quote_verified;
-    });
-
-    res.json({ ...argumentData, sources: sourcesData });
+    res.json({ data });
   } catch (error) {
     console.error("Unexpected error:", error);
     res.status(500).json({ errorMessage: "Server error occurred." });
   }
 });
 
-// POST
-router.post("/", async (req, res) => {
-  const { title, sourceIds } = req.body;
-  const slug = nanoid(8);
+// get all arguments from one user
 
-  if (!title) {
-    return res
-      .status(400)
-      .json({ errorMessage: "Title parameter is required." });
-  }
-  if (!Array.isArray(sourceIds) || sourceIds.length === 0) {
-    return res
-      .status(400)
-      .json({ errorMessage: "sourceIds must be a non-empty array." });
-  }
+// POST
+router.post("/", resolveToken, async (req, res) => {
+  const { title, sourceIds } = req.body;
+  console.log(req.user);
+  const user_id = req.user ? req.user.id : null;
 
   try {
-    const sbClient = getSupabaseClient();
+    const { data, error } = await insertArgument(title, sourceIds, user_id);
 
-    const { data: argumentData, error: argumentError } = await sbClient
-      .from("arguments")
-      .insert([{ title, slug }])
-      .select()
-      .single();
-
-    if (argumentError) {
-      console.error("argument error:", argumentError);
+    if (error) {
+      console.error("argument error:", error);
       return res.status(400).json({
         errorMessage: "Couldn't insert argument.",
-        details: argumentError.message,
+        details: error.message,
       });
     }
 
-    const newArgumentId = argumentData.id;
+    res.status(201).json(data);
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    res.status(500).json({ errorMessage: "Server error occurred." });
+  }
+});
 
-    const { error: sourcesError } = await Promise.all(
-      sourceIds.map((sourceId) =>
-        sbClient
-          .from("sources")
-          .update({ argument_id: newArgumentId })
-          .eq("id", sourceId),
-      ),
+router.put("/:slug", checkAuth, async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const { id: userId } = req.user;
+    const { title, sourceIds } = req.body;
+    const { data, error } = await updateArgument(
+      userId,
+      slug,
+      title,
+      sourceIds,
     );
 
-    if (sourcesError) {
-      console.error("Update sources error:", sourcesError);
+    if (error) {
+      console.error("argument error:", error);
       return res.status(400).json({
-        errorMessage: "Couldn't update sources.",
-        details: sourcesError.message,
+        errorMessage: "Couldn't save argument.",
+        details: error.message,
       });
     }
 
-    res.status(201).json(argumentData);
+    res.json({ data });
   } catch (error) {
     console.error("Unexpected error:", error);
     res.status(500).json({ errorMessage: "Server error occurred." });

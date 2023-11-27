@@ -4,7 +4,6 @@ import { Tooltip } from "flowbite-react";
 
 const SourceQuote = ({ source }) => {
   const { quote } = source;
-  console.log(source);
   if (!quote) return null;
 
   const getVerifiedQuoteIcon = () => {
