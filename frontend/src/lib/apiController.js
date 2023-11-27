@@ -19,13 +19,20 @@ const saveArgument = async ({ argumentTitle, sourceIds, session }) => {
     body["user_id"] = session.user.id;
   }
 
-  const response = await fetch(`${API_URL}/arguments`, {
-    method: "POST",
-    headers,
-    body: JSON.stringify(body),
-  });
+  try {
+    const response = await fetch(`${API_URL}/arguments`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(body),
+    });
 
-  return await response.json();
+    const { data, error } = await response.json();
+    if (error) throw error;
+    return { data };
+  } catch (error) {
+    console.error(error);
+    return { error };
+  }
 };
 
 const updateArgument = async ({ slug, argumentTitle, sourceIds, session }) => {
@@ -39,13 +46,20 @@ const updateArgument = async ({ slug, argumentTitle, sourceIds, session }) => {
     Authorization: `Bearer ${session.access_token}`,
   };
 
-  const response = await fetch(`${API_URL}/arguments/${slug}`, {
-    method: "PUT",
-    headers,
-    body: JSON.stringify(body),
-  });
+  try {
+    const response = await fetch(`${API_URL}/arguments/${slug}`, {
+      method: "PUT",
+      headers,
+      body: JSON.stringify(body),
+    });
 
-  return await response.json();
+    const { data, error } = await response.json();
+    if (error) throw error;
+    return { data };
+  } catch (error) {
+    console.error(error);
+    return { error };
+  }
 };
 
 const getAllArguments = async (session) => {
@@ -54,28 +68,65 @@ const getAllArguments = async (session) => {
     Authorization: `Bearer ${session.access_token}`,
   };
 
-  const response = await fetch(`${API_URL}/arguments`, {
-    method: "GET",
-    headers,
-  });
+  try {
+    const response = await fetch(`${API_URL}/arguments`, {
+      method: "GET",
+      headers,
+    });
 
-  const { data } = await response.json();
-  return data;
+    const { data, error } = await response.json();
+    if (error) throw error;
+    return { data };
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 };
 
 const saveSource = async (url, quote) => {
-  const response = await fetch(`${API_URL}/sources`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      url,
-      quote,
-    }),
-  });
+  try {
+    const response = await fetch(`${API_URL}/sources`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        url,
+        quote,
+      }),
+    });
 
-  return await response.json();
+    const { data, error } = await response.json();
+    if (error) throw error;
+    return { data };
+  } catch (error) {
+    console.log(error);
+    return { error };
+  }
 };
 
-export { saveArgument, saveSource, getAllArguments, updateArgument };
+const getArgumentBySlug = async (slug) => {
+  try {
+    const response = await fetch(`${API_URL}/arguments/${slug}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const { data, error } = await response.json();
+    if (error) throw error;
+    return { data };
+  } catch (error) {
+    console.error(error);
+    return { error };
+  }
+};
+
+export {
+  saveArgument,
+  saveSource,
+  getAllArguments,
+  updateArgument,
+  getArgumentBySlug,
+};

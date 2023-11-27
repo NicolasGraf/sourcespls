@@ -1,5 +1,5 @@
-import { Spinner } from "flowbite-react";
 import ArgumentItem from "./ArgumentItem";
+import LoadingArgument from "../arguments/LoadingArgument";
 
 const PersonalArgumentList = ({
   userArguments,
@@ -9,7 +9,7 @@ const PersonalArgumentList = ({
   setIsEditing,
 }) => {
   if (loading) {
-    return <Spinner />;
+    return <LoadingArgument />;
   }
 
   return (

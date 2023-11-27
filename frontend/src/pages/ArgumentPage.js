@@ -4,6 +4,7 @@ import SourceContainer from "../components/sources/SourceContainer";
 import { BsQuote } from "react-icons/bs";
 import LoadingArgument from "../components/arguments/LoadingArgument";
 import ArgumentError from "../components/arguments/ArgumentError";
+import { getArgumentBySlug } from "../lib/apiController";
 
 const ArgumentPage = () => {
   const { slug } = useParams();
@@ -16,23 +17,14 @@ const ArgumentPage = () => {
       setIsLoading(true);
       setError(null);
 
-      try {
-        const response = await fetch(`http://localhost:3030/arguments/${slug}`);
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-
-        if (data.errorMessage) {
-          throw new Error(data.errorMessage);
-        }
-
-        setArgument(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
+      const { data, error } = await getArgumentBySlug(slug);
+      setIsLoading(false);
+      if (error) {
+        setError(error);
+        return;
       }
+
+      setArgument(data);
     };
 
     getArgument();
@@ -47,7 +39,7 @@ const ArgumentPage = () => {
   }
 
   if (!argument) {
-    return <div>Argument not found</div>;
+    return null;
   }
 
   const sources = argument.sources.map((source) => (

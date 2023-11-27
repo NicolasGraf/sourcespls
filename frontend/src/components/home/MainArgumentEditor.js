@@ -26,19 +26,16 @@ const MainArgumentEditor = () => {
   const onSaveSource = async () => {
     setIsSourceLoading(true);
     setHasSourceError(false);
-    try {
-      const responseBody = await saveSource(sourceInputValue, quoteInputValue);
-      if (responseBody.error || responseBody.errorMessage) {
-        throw responseBody.error;
-      }
-      setInputsEmpty();
-      setSources([...sources, responseBody]);
-    } catch (error) {
+    const { data, error } = await saveSource(sourceInputValue, quoteInputValue);
+    setIsSourceLoading(false);
+    if (error) {
       setHasSourceError(true);
-      console.error("Failed to fetch URL data:", error);
-    } finally {
-      setIsSourceLoading(false);
+      return;
     }
+
+    setInputsEmpty();
+    setSources([...sources, data]);
+    setHasSourceError(false);
   };
 
   return (

@@ -17,8 +17,6 @@ const ArgumentItem = ({ argument, isActive, onSelect, setIsEditing }) => {
 
   const handleClickOutside = (event) => {
     if (!controlRef.current) return;
-    console.log(controlRef.current.contains(event.target));
-    console.log(event.target);
     if (controlRef.current.contains(event.target)) return;
 
     setIsEditing(false);
@@ -50,7 +48,7 @@ const ArgumentItem = ({ argument, isActive, onSelect, setIsEditing }) => {
 
     setIsLoading(true);
 
-    const data = await updateArgument({
+    const { data } = await updateArgument({
       slug,
       argumentTitle: argumentTitle,
       sourceIds,

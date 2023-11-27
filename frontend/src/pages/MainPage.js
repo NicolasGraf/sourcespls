@@ -20,13 +20,15 @@ export const MainPage = () => {
     const sourceIds = sources.map((source) => source.id);
     setIsLinkLoading(true);
     try {
-      const responseBody = await saveArgument({
+      const { data, error } = await saveArgument({
         argumentTitle,
         sourceIds,
         session,
       });
+
+      if (error) return console.error(error);
       const host = window.location.origin;
-      setCreatedLink(`${host}/${responseBody.slug}`);
+      setCreatedLink(`${host}/${data.slug}`);
     } catch (error) {
       console.error("Failed to fetch URL data:", error);
     } finally {

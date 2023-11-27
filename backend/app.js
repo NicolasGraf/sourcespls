@@ -9,6 +9,7 @@ import indexRouter from "./routes/index.js";
 import sourcesRouter from "./routes/sources.js";
 import argumentsRouter from "./routes/arguments.js";
 import { closeBrowserInstance } from "./util/BrowserManager.js";
+import errorHandler from "./util/ErrorHandler.js";
 
 dotenv.config();
 const port = process.env.PORT || "3030";
@@ -24,6 +25,8 @@ app.use(cookieParser());
 app.use("/", indexRouter);
 app.use("/sources", sourcesRouter);
 app.use("/arguments", argumentsRouter);
+
+app.use(errorHandler);
 
 app.set("port", port);
 

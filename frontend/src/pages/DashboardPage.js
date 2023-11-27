@@ -15,10 +15,14 @@ const DashboardPage = () => {
 
   useEffect(() => {
     const getArguments = async (session) => {
-      const data = await getAllArguments(session);
+      const { data, error } = await getAllArguments(session);
+      setLoading(false);
+      if (error) {
+        console.error(error);
+        return;
+      }
       setUserArguments(data);
       setSelectedArgument(0);
-      setLoading(false);
     };
     getArguments(session);
   }, [session]);

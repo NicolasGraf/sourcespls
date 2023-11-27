@@ -2,157 +2,138 @@ import { getSupabaseClient } from "../../util/SupabaseManager.js";
 import { nanoid } from "nanoid";
 
 const getAllArgumentsByUserId = async (userId) => {
-  try {
-    const sbClient = getSupabaseClient();
+  const sbClient = getSupabaseClient();
+  const { data: argumentsData, error: argumentsError } = await sbClient
+    .from("arguments")
+    .select()
+    .eq("user_id", userId);
 
-    const { data: argumentsData, error: argumentsError } = await sbClient
-      .from("arguments")
-      .select()
-      .eq("user_id", userId);
+  if (argumentsError) throw argumentsError;
 
-    if (argumentsError) throw argumentsError;
+  const { data: sourcesData, error: sourcesError } = await sbClient
+    .from("sources")
+    .select()
+    .in(
+      "argument_id",
+      argumentsData.map((argument) => argument.id),
+    );
 
-    const { data: sourcesData, error: sourcesError } = await sbClient
-      .from("sources")
-      .select()
-      .in(
-        "argument_id",
-        argumentsData.map((argument) => argument.id),
-      );
+  if (sourcesError) throw sourcesError;
 
-    if (sourcesError) throw sourcesError;
+  const argumentsWithSources = argumentsData.map((argument) => {
+    const sources = sourcesData.filter(
+      (source) => source.argument_id === argument.id,
+    );
+    return { ...argument, sources };
+  });
 
-    const argumentsWithSources = argumentsData.map((argument) => {
-      const sources = sourcesData.filter(
-        (source) => source.argument_id === argument.id,
-      );
-      return { ...argument, sources };
-    });
-
-    return { data: argumentsWithSources };
-  } catch (error) {
-    return { error: error };
-  }
+  return { data: argumentsWithSources };
 };
+
 const getArgumentBySlug = async (slug) => {
-  try {
-    const sbClient = getSupabaseClient();
+  const sbClient = getSupabaseClient();
 
-    const { data: argumentData, error: argumentError } = await sbClient
-      .from("arguments")
-      .select()
-      .eq("slug", slug)
-      .single();
+  const { data: argumentData, error: argumentError } = await sbClient
+    .from("arguments")
+    .select()
+    .eq("slug", slug)
+    .single();
 
-    if (argumentError) throw argumentError;
+  if (argumentError) throw argumentError;
 
-    const { data: sourcesData, error: sourcesError } = await sbClient
-      .from("sources")
-      .select()
-      .eq("argument_id", argumentData.id);
+  const { data: sourcesData, error: sourcesError } = await sbClient
+    .from("sources")
+    .select()
+    .eq("argument_id", argumentData.id);
 
-    if (sourcesError) throw sourcesError;
+  if (sourcesError) throw sourcesError;
 
-    sourcesData.forEach((source) => {
-      source.imageUrl = source.image_url;
-      source.siteName = source.site_name;
-      source.quoteVerified = source.quote_verified;
-      delete source.image_url;
-      delete source.site_name;
-      delete source.quote_verified;
-    });
+  sourcesData.forEach((source) => {
+    source.imageUrl = source.image_url;
+    source.siteName = source.site_name;
+    source.quoteVerified = source.quote_verified;
+    delete source.image_url;
+    delete source.site_name;
+    delete source.quote_verified;
+  });
 
-    return { ...argumentData, sources: sourcesData };
-  } catch (error) {
-    return { error: error };
-  }
+  return { data: { ...argumentData, sources: sourcesData } };
 };
 
 const insertArgument = async (title, sourceIds, user_id) => {
   if (!title) {
-    return { error: { errorMessage: "Title parameter is required." } };
+    throw { status: 400, message: "Title parameter is required." };
   }
   if (!Array.isArray(sourceIds) || sourceIds.length === 0) {
-    return { error: { errorMessage: "SourceIds parameter is required." } };
+    throw { status: 400, message: "SourceIds parameter is required." };
   }
 
-  try {
-    const sbClient = getSupabaseClient();
-    const slug = nanoid(8);
+  const sbClient = getSupabaseClient();
+  const slug = nanoid(8);
 
-    const { data: argumentData, error: argumentError } = await sbClient
-      .from("arguments")
-      .insert([{ title, slug, user_id }])
-      .select()
-      .single();
+  const { data, error: argumentError } = await sbClient
+    .from("arguments")
+    .insert([{ title, slug, user_id }])
+    .select()
+    .single();
 
-    if (argumentError) throw argumentError;
+  if (argumentError) throw argumentError;
 
-    const newArgumentId = argumentData.id;
-    const { error: sourcesError } = await Promise.all(
-      sourceIds.map((sourceId) =>
-        sbClient
-          .from("sources")
-          .update({ argument_id: newArgumentId })
-          .eq("id", sourceId),
-      ),
-    );
+  const newArgumentId = data.id;
+  const { error: sourcesError } = await Promise.all(
+    sourceIds.map((sourceId) =>
+      sbClient
+        .from("sources")
+        .update({ argument_id: newArgumentId })
+        .eq("id", sourceId),
+    ),
+  );
 
-    if (sourcesError) throw sourcesError;
-    return { data: argumentData };
-  } catch (error) {
-    return { error: error };
-  }
+  if (sourcesError) throw sourcesError;
+  return { data };
 };
 
 const updateArgument = async (userId, slug, title, sourceIds) => {
   if (!title) {
-    return { error: { errorMessage: "Title parameter is required." } };
+    throw { status: 400, message: "Title parameter is required." };
   }
   if (!Array.isArray(sourceIds)) {
-    return { error: { errorMessage: "SourceIds parameter is required." } };
+    throw { status: 400, message: "SourceIds parameter is required." };
   }
 
-  try {
-    const sbClient = getSupabaseClient();
+  const sbClient = getSupabaseClient();
 
-    const { data, error: updateError } = await sbClient
-      .from("arguments")
-      .update({ title })
-      .eq("user_id", userId)
-      .eq("slug", slug)
-      .select()
-      .single();
+  const { data, error: updateError } = await sbClient
+    .from("arguments")
+    .update({ title })
+    .eq("user_id", userId)
+    .eq("slug", slug)
+    .select()
+    .single();
 
-    console.log(data);
+  if (updateError) throw updateError;
 
-    if (updateError) throw updateError;
+  const { data: sourcesData, error: sourcesError } = await sbClient
+    .from("sources")
+    .select()
+    .eq("argument_id", data.id);
 
-    // get sources from argument, and delete the ones that are not in the sourceIds array
-    const { data: sourcesData, error: sourcesError } = await sbClient
-      .from("sources")
-      .select()
-      .eq("argument_id", data.id);
+  if (sourcesError) throw sourcesError;
 
-    if (sourcesError) throw sourcesError;
+  const sourcesToDelete = sourcesData.filter(
+    (source) => !sourceIds.includes(source.id),
+  );
 
-    const sourcesToDelete = sourcesData.filter(
-      (source) => !sourceIds.includes(source.id),
+  const { error: deleteSourcesError } = await sbClient
+    .from("sources")
+    .delete()
+    .in(
+      "id",
+      sourcesToDelete.map((source) => source.id),
     );
 
-    const { error: deleteSourcesError } = await sbClient
-      .from("sources")
-      .delete()
-      .in(
-        "id",
-        sourcesToDelete.map((source) => source.id),
-      );
-
-    if (deleteSourcesError) throw deleteSourcesError;
-    return { data };
-  } catch (error) {
-    return { error: error };
-  }
+  if (deleteSourcesError) throw deleteSourcesError;
+  return { data };
 };
 
 export {
