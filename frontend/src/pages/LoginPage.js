@@ -1,5 +1,5 @@
 import { Card } from "flowbite-react";
-import SocialLogin from "../components/SocialLogin";
+import SocialLogin from "../components/login/SocialLogin";
 
 const LoginPage = () => {
   return (

@@ -1,6 +1,6 @@
 import { Button, Spinner } from "flowbite-react";
 import { useState } from "react";
-import SourcesInput from "./MainSourceEditor";
+import SourceEditorForm from "../sources/SourceEditorForm";
 
 const ArgumentEditArea = ({ isLoading, saveArgument }) => {
   const [isAddingSource, setIsAddingSource] = useState(false);
@@ -16,15 +16,15 @@ const ArgumentEditArea = ({ isLoading, saveArgument }) => {
   return (
     <div>
       {isAddingSource && (
-        <SourcesInput
+        <SourceEditorForm
+          onUrlInputChange={setSourceInputValue}
+          onQuoteInputChange={setQuoteInputValue}
+          sourceValue={sourceInputValue}
+          quoteValue={quoteInputValue}
           isLoading={isLoading}
-          setSourceInputValue={setSourceInputValue}
-          quoteInputValue={quoteInputValue}
-          setQuoteInputValue={setQuoteInputValue}
-          sourceUrl={sourceInputValue}
           hasError={false}
-          saveSource={onSaveSource}
-        ></SourcesInput>
+          onSubmit={onSaveSource}
+        />
       )}
       <div className="flex gap-2 items-end mt-4 justify-start">
         <Button onClick={saveArgument}>Save</Button>

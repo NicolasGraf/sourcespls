@@ -1,7 +1,7 @@
 import TitleInput from "./TitleInput";
-import AddSourceButton from "./home/AddSourceButton";
-import { saveSource } from "../lib/apiController";
-import { useMainPageContext } from "../lib/mainPageContext";
+import AddSourceButton from "./AddSourceButton";
+import { saveSource } from "../../lib/apiController";
+import { useMainPageContext } from "../../lib/mainPageContext";
 import MainSourceEditor from "./MainSourceEditor";
 
 const MainArgumentEditor = () => {

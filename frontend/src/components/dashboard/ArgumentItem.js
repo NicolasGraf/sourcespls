@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
 import ArgumentEditArea from "./ArgumentEditArea";
-import { useAuth } from "../lib/authProvider";
-import { updateArgument } from "../lib/apiController";
+import { useAuth } from "../../lib/authProvider";
+import { updateArgument } from "../../lib/apiController";
 import { Card } from "flowbite-react";
 import ArgumentLink from "./ArgumentLink";
 

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../lib/authProvider";
 import { getAllArguments } from "../lib/apiController";
-import PersonalArgumentList from "../components/PersonalArgumentList";
-import PreviewSources from "../components/PreviewSources";
+import PersonalArgumentList from "../components/dashboard/PersonalArgumentList";
+import PreviewSources from "../components/sources/PreviewSources";
 import SeparatorResponsive from "../components/common/SeparatorResponsive";
 
 const DashboardPage = () => {

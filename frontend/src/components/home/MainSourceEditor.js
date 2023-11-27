@@ -1,7 +1,7 @@
 import { Card } from "flowbite-react";
 import { IoClose } from "react-icons/io5";
-import SourceEditorForm from "./SourceEditorForm";
-import { useMainPageContext } from "../lib/mainPageContext";
+import SourceEditorForm from "../sources/SourceEditorForm";
+import { useMainPageContext } from "../../lib/mainPageContext";
 
 const MainSourceEditor = ({ saveSource }) => {
   const {

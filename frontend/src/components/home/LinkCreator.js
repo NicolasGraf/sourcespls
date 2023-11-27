@@ -1,6 +1,6 @@
 import { Button, Spinner } from "flowbite-react";
 import ResultLink from "./ResultLink";
-import { useMainPageContext } from "../lib/mainPageContext";
+import { useMainPageContext } from "../../lib/mainPageContext";
 
 const LinkCreator = ({ createLink }) => {
   const { sources, createdLink, isLinkLoading } = useMainPageContext();

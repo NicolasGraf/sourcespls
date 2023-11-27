@@ -1,10 +1,10 @@
-import PreviewSources from "../components/PreviewSources";
+import PreviewSources from "../components/sources/PreviewSources";
 import SeparatorResponsive from "../components/common/SeparatorResponsive";
-import MainArgumentEditor from "../components/MainArgumentEditor";
+import MainArgumentEditor from "../components/home/MainArgumentEditor";
 import { saveArgument } from "../lib/apiController";
-import LinkCreator from "../components/LinkCreator";
+import LinkCreator from "../components/home/LinkCreator";
 import { useAuth } from "../lib/authProvider";
-import Separator from "../components/Seperator";
+import Separator from "../components/common/Seperator";
 import { useMainPageContext } from "../lib/mainPageContext";
 
 export const MainPage = () => {

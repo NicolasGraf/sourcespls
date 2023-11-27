@@ -7,7 +7,7 @@ import customTheme from "./lib/theme";
 import AppFooter from "./components/common/AppFooter";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
-import RequireAuth from "./components/RequireAuth";
+import RequireAuth from "./components/common/RequireAuth";
 import { AuthProvider } from "./lib/authProvider";
 import { MainPageProvider } from "./lib/mainPageContext";
 

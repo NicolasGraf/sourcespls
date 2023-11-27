@@ -1,5 +1,5 @@
 import React from "react";
-import { supabase } from "../lib/supaBaseClient";
+import { supabase } from "../../lib/supaBaseClient";
 import { Button } from "flowbite-react";
 import { FcGoogle } from "react-icons/fc";
 
