@@ -10,10 +10,6 @@ RUN apt-get update && apt-get install gnupg wget -y && \
   apt-get install google-chrome-stable -y --no-install-recommends && \
   rm -rf /var/lib/apt/lists/*
 
-COPY package*.json ./
-RUN npm ci
-COPY . .
-
 # run as separate user we dont have to use --no-sandbox
 RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
    && mkdir -p /home/pptruser/Downloads \
@@ -21,6 +17,10 @@ RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
    && chown -R pptruser:pptruser /node_modules \
    && chown -R pptruser:pptruser /package.json \
    && chown -R pptruser:pptruser /package-lock.json
+
+COPY package*.json ./
+RUN npm ci
+COPY . .
 
 USER pptruser
 
