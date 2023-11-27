@@ -1,6 +1,7 @@
 import { DarkThemeToggle, Navbar } from "flowbite-react";
 import { Link } from "react-router-dom";
 import HeaderLink from "./HeaderLink";
+import HeaderLogin from "./HeaderLogin";
 
 const Header = () => {
   return (
@@ -23,6 +24,7 @@ const Header = () => {
         <Navbar.Collapse>
           <HeaderLink to={"/"} text={"Home"} />
           <HeaderLink to={"/about"} text={"About"} />
+          <HeaderLogin />
         </Navbar.Collapse>
       </Navbar>
     </header>

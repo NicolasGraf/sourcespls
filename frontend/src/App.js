@@ -6,7 +6,7 @@ import { Flowbite } from "flowbite-react";
 import customTheme from "./lib/theme";
 import AppFooter from "./components/AppFooter";
 import LoginPage from "./pages/LoginPage";
-import RedirectPage from "./pages/RedirectPage";
+import DashboardPage from "./pages/DashboardPage";
 import RequireAuth from "./components/RequireAuth";
 import { AuthProvider } from "./lib/authProvider";
 
@@ -24,12 +24,11 @@ function App() {
             <Routes>
               <Route path="/" element={<MainPage />} />
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/redirect" element={<RedirectPage />} />
               <Route
                 path="/dashboard"
                 element={
                   <RequireAuth>
-                    <h1>Restricted Dashboard</h1>
+                    <DashboardPage />
                   </RequireAuth>
                 }
               />

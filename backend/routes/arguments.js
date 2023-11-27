@@ -1,13 +1,15 @@
 import express from "express";
-import { nanoid } from "nanoid";
-import { getSupabaseClient } from "../util/SupabaseManager.js";
+import {nanoid} from "nanoid";
+import {getSupabaseClient} from "../util/SupabaseManager.js";
 
 const router = express.Router();
 
+// GET
 router.get("/", async (req, res) => {
   res.send({ title: "Express" });
 });
 
+// GET BY SLUG
 router.get("/:slug", async (req, res) => {
   const { slug } = req.params;
 
@@ -57,6 +59,7 @@ router.get("/:slug", async (req, res) => {
   }
 });
 
+// POST
 router.post("/", async (req, res) => {
   const { title, sourceIds } = req.body;
   const slug = nanoid(8);

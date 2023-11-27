@@ -43,7 +43,7 @@ const SourceQuote = ({ source }) => {
         <span className="text-xl md:text-3xl self-end">
           <BiSolidQuoteRight />
         </span>
-        <p className="self-start">{getVerifiedQuoteIcon()}</p>
+        <div className="self-start">{getVerifiedQuoteIcon()}</div>
       </div>
     </div>
   );

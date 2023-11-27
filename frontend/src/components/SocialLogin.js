@@ -8,7 +8,7 @@ const SocialAuth = () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: "http://localhost:3000/redirect",
+        redirectTo: "http://localhost:3000/dashboard",
       },
     });
 
