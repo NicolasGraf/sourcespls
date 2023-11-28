@@ -58,8 +58,8 @@ const customTheme = {
     },
   },
   tooltip: {
-    target: "w-max",
-    base: "absolute inline-block z-10 rounded-lg py-2 px-3 text-sm font-medium shadow-sm w-max",
+    target: "max-w-screen",
+    base: "absolute inline-block z-10 rounded-lg py-2 px-3 text-sm font-medium shadow-sm",
     style: {
       auto: "border bg-white text-gray-900 border-accent dark:bg-primary-dark dark:text-white",
     },

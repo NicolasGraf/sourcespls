@@ -7,7 +7,7 @@ export const useToast = () => useContext(ToastContext);
 export const ToastProvider = ({ children }) => {
   const [toasts, setToasts] = useState([]);
 
-  const showToast = ({ text, type, duration = 100000 }) => {
+  const showToast = ({ text, type, duration = 2500 }) => {
     const id = Math.random().toString(36).substring(2, 9);
     setToasts((currentToasts) => [
       ...currentToasts,
