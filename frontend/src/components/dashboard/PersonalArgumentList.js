@@ -1,16 +1,15 @@
 import ArgumentItem from "./ArgumentItem";
 import LoadingArgument from "../arguments/LoadingArgument";
+import { useDashBoardContext } from "../../lib/dashboardPageContext";
 
-const PersonalArgumentList = ({
-  userArguments,
-  loading,
-  selectedArgument,
-  onSelect,
-  setIsEditing,
-}) => {
-  if (loading) {
-    return <LoadingArgument />;
-  }
+const PersonalArgumentList = () => {
+  const {
+    argumentsLoading,
+    userArguments,
+    selectedArgument,
+    setSelectedArgument,
+  } = useDashBoardContext();
+  if (argumentsLoading) return <LoadingArgument />;
 
   return (
     <div className="flex flex-col w-full gap-4">
@@ -20,8 +19,7 @@ const PersonalArgumentList = ({
           key={argument.id}
           argument={argument}
           isActive={index === selectedArgument}
-          onSelect={() => onSelect(index)}
-          setIsEditing={setIsEditing}
+          onSelect={() => setSelectedArgument(index)}
         />
       ))}
     </div>

@@ -1,36 +1,52 @@
 import { Button } from "flowbite-react";
 import { useState } from "react";
 import SourceEditorForm from "../sources/SourceEditorForm";
+import { saveSource } from "../../lib/apiController";
+import { BiSave, BiTrash } from "react-icons/bi";
+import { useDashBoardContext } from "../../lib/dashboardPageContext";
 
-const ArgumentEditArea = ({ isLoading, saveArgument }) => {
-  const [isAddingSource, setIsAddingSource] = useState(false);
+const ArgumentEditArea = ({ saveArgument, argumentId }) => {
   const [sourceInputValue, setSourceInputValue] = useState("");
   const [quoteInputValue, setQuoteInputValue] = useState("");
+  const { sources, onSetSources, onDeleteArgument } = useDashBoardContext();
 
-  const addSource = () => {
-    setIsAddingSource(true);
+  const onSaveSource = async (evt) => {
+    evt.preventDefault();
+
+    const { data, error } = await saveSource(sourceInputValue, quoteInputValue);
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    onSetSources([...sources, data]);
   };
 
-  const onSaveSource = async () => {};
-
   return (
-    <div>
-      {isAddingSource && (
-        <SourceEditorForm
-          onUrlInputChange={setSourceInputValue}
-          onQuoteInputChange={setQuoteInputValue}
-          sourceValue={sourceInputValue}
-          quoteValue={quoteInputValue}
-          isLoading={isLoading}
-          hasError={false}
-          onSubmit={onSaveSource}
-        />
-      )}
-      <div className="flex gap-2 items-end mt-4 justify-start">
-        <Button onClick={saveArgument}>Save</Button>
-        <Button onClick={addSource}>Add Source</Button>
+    <>
+      <SourceEditorForm
+        onUrlInputChange={setSourceInputValue}
+        onQuoteInputChange={setQuoteInputValue}
+        sourceValue={sourceInputValue}
+        quoteValue={quoteInputValue}
+        hasError={false}
+        onSubmit={onSaveSource}
+      />
+      <div className="flex gap-4 items-end justify-start">
+        <Button onClick={saveArgument}>
+          <span>Save</span>
+          <BiSave className="ml-1 text-lg" />
+        </Button>
+        <Button
+          color="failure"
+          outline
+          onClick={() => onDeleteArgument(argumentId)}
+        >
+          Delete
+          <BiTrash className="ml-1 text-lg" />
+        </Button>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -3,10 +3,13 @@ const customTheme = {
     base: "group flex items-stretch items-center justify-center p-1 text-center font-medium relative focus:z-10 focus:outline-none",
     color: {
       info: "bg-accent hover:brightness-90 dark:focus:ring-secondary-dark",
+      failure: "hover:brightness-90 dark:focus:ring-secondary-dark",
     },
     outline: {
       color: {
         info: "p-0.5",
+        failure:
+          "p-[3px] dark:bg-primary-dark border-red-500 border dark:hover:outline-none",
       },
       on: "flex justify-center bg-white transition-all duration-75 ease-in dark:bg-primary-dark w-full",
     },

@@ -120,19 +120,23 @@ const updateArgument = async (userId, slug, title, sourceIds) => {
 
   if (sourcesError) throw sourcesError;
 
-  const sourcesToDelete = sourcesData.filter(
-    (source) => !sourceIds.includes(source.id),
+  // get all source ids and add them to the argument
+  const sourceIdsFromDb = sourcesData.map((source) => source.id);
+  const sourceIdsToAdd = sourceIds.filter(
+    (sourceId) => !sourceIdsFromDb.includes(sourceId),
   );
 
-  const { error: deleteSourcesError } = await sbClient
-    .from("sources")
-    .delete()
-    .in(
-      "id",
-      sourcesToDelete.map((source) => source.id),
-    );
+  const { error: addSourcesError } = await Promise.all(
+    sourceIdsToAdd.map((sourceId) =>
+      sbClient
+        .from("sources")
+        .update({ argument_id: data.id })
+        .eq("id", sourceId),
+    ),
+  );
 
-  if (deleteSourcesError) throw deleteSourcesError;
+  if (addSourcesError) throw addSourcesError;
+
   return { data };
 };
 

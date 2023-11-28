@@ -1,5 +1,4 @@
 import { BiCopy } from "react-icons/bi";
-import { FaExternalLinkAlt } from "react-icons/fa";
 
 const ArgumentLink = ({ url }) => {
   const onVisit = () => {
@@ -7,15 +6,11 @@ const ArgumentLink = ({ url }) => {
   };
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-4">
       <p className="font-bold">{url}</p>
       <BiCopy
         onClick={null}
         className="relative text-2xl text-primary-dark dark:text-secondary-light cursor-pointer active:top-0.5"
-      />
-      <FaExternalLinkAlt
-        onClick={onVisit}
-        className="relative text-xl text-primary-dark dark:text-secondary-light cursor-pointer active:top-0.5"
       />
     </div>
   );

@@ -10,6 +10,7 @@ import DashboardPage from "./pages/DashboardPage";
 import RequireAuth from "./components/common/RequireAuth";
 import { AuthProvider } from "./lib/authProvider";
 import { MainPageProvider } from "./lib/mainPageContext";
+import { DashboardProvider } from "./lib/dashboardPageContext";
 
 function App() {
   const prefersDarkMode = window.matchMedia(
@@ -36,7 +37,9 @@ function App() {
                 path="/dashboard"
                 element={
                   <RequireAuth>
-                    <DashboardPage />
+                    <DashboardProvider>
+                      <DashboardPage />
+                    </DashboardProvider>
                   </RequireAuth>
                 }
               />

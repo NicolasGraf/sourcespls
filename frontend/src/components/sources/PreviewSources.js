@@ -2,7 +2,7 @@ import SourceContainer from "./SourceContainer";
 import { deleteSourceById } from "../../lib/apiController";
 import { useAuth } from "../../lib/authProvider";
 
-const PreviewSources = ({ sources, setSources, editable }) => {
+const PreviewSources = ({ sources, onSetSources, editable }) => {
   const noSources = sources.length === 0;
   const { session } = useAuth();
 
@@ -14,7 +14,7 @@ const PreviewSources = ({ sources, setSources, editable }) => {
     }
 
     const newSources = sources.filter((source) => source.id !== id);
-    setSources(newSources);
+    onSetSources(newSources);
   };
 
   return (

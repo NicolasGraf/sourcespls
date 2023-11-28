@@ -1,4 +1,5 @@
 import { Button, Spinner, Textarea, TextInput } from "flowbite-react";
+import { AiOutlinePlus } from "react-icons/ai";
 
 const SourceEditorForm = ({
   sourceValue,
@@ -40,6 +41,7 @@ const SourceEditorForm = ({
           className="self-start"
         >
           Add
+          <AiOutlinePlus className="ml-2" />
         </Button>
         {isLoading && <Spinner />}
       </div>

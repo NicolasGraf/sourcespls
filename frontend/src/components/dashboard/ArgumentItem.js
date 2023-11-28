@@ -1,17 +1,18 @@
 import { useEffect, useRef, useState } from "react";
-import { AiFillEdit } from "react-icons/ai";
-import ArgumentEditArea from "./ArgumentEditArea";
 import { useAuth } from "../../lib/authProvider";
 import { updateArgument } from "../../lib/apiController";
 import { Card, Spinner } from "flowbite-react";
 import ArgumentLink from "./ArgumentLink";
+import ArgumentItemControls from "./ArgumentItemControls";
+import ArgumentItemHeader from "./ArgumentItemHeader";
+import { useDashBoardContext } from "../../lib/dashboardPageContext";
 
 const ArgumentItem = ({ argument, isActive, onSelect }) => {
-  const [isLoading, setIsLoading] = useState(false);
   const { session } = useAuth();
+  const { editLoading, setEditLoading } = useDashBoardContext();
   const { title, slug } = argument;
   const fullUrl = `${window.location.origin}/${slug}`;
-  const titleRef = useRef();
+
   const [isLocalEditing, setIsLocalEditing] = useState(false);
   const controlRef = useRef();
 
@@ -29,18 +30,11 @@ const ArgumentItem = ({ argument, isActive, onSelect }) => {
     };
   });
 
-  useEffect(() => {
-    if (isLocalEditing) {
-      titleRef.current.focus();
-    }
-    titleRef.current.textContent = title;
-  }, [isLocalEditing]);
-
   const onSave = async () => {
     const sourceIds = argument.sources.map((source) => source.id);
-    const argumentTitle = titleRef.current.innerText;
+    const argumentTitle = argument.title;
 
-    setIsLoading(true);
+    setEditLoading(true);
 
     const { data } = await updateArgument({
       slug,
@@ -49,12 +43,8 @@ const ArgumentItem = ({ argument, isActive, onSelect }) => {
       session,
     });
 
-    setIsLoading(false);
+    setEditLoading(false);
     setIsLocalEditing(false);
-  };
-
-  const onTitleInputChanged = (e) => {
-    argument.title = e.target.innerText;
   };
 
   return (
@@ -67,22 +57,20 @@ const ArgumentItem = ({ argument, isActive, onSelect }) => {
         }`}
         onClick={onSelect}
       >
-        <h5
-          ref={titleRef}
-          className="text-xl mb-4"
-          contentEditable={isLocalEditing}
-          onInput={onTitleInputChanged}
-        ></h5>
+        <ArgumentItemHeader
+          isEditing={isLocalEditing}
+          argument={argument}
+          argumentUrl={fullUrl}
+        />
         <ArgumentLink url={fullUrl} />
-        {!isLocalEditing && (
-          <AiFillEdit
-            onClick={() => setIsLocalEditing(true)}
-            className="hidden absolute top-4 right-4 group-hover:block cursor-pointer"
-          />
-        )}
-        {isLocalEditing && <ArgumentEditArea saveArgument={onSave} />}
-        {isLoading && (
-          <span className="absolute">
+        <ArgumentItemControls
+          isEditing={isLocalEditing}
+          setIsEditing={setIsLocalEditing}
+          onSave={onSave}
+          argumentId={argument.id}
+        />
+        {editLoading && isActive && (
+          <span className="absolute bottom-6 right-6">
             <Spinner />
           </span>
         )}

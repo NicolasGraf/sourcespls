@@ -20,19 +20,16 @@ const checkAuth = async (req, res, next) => {
 
 const resolveToken = async (req, res, next) => {
   const supabase = getSupabaseClient();
-  console.log("trying to resolve token...");
   if (req.headers.authorization) {
-    console.log("has auth header");
     const token = req.headers.authorization.split(" ")[1];
-    const { data, error } = await supabase.auth.getUser(token);
-    console.log("supabase response", data);
-    const { user } = data;
+    try {
+      const { data, error } = await supabase.auth.getUser(token);
+      const { user } = data;
 
-    if (!error && user) {
-      req.user = user;
-      console.log(user);
-    } else {
-      throw error;
+      if (error) throw error;
+      if (user) req.user = user;
+    } catch (error) {
+      return res.status(401).json({ error: error.message });
     }
   }
   next();
