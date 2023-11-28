@@ -4,11 +4,13 @@ import { Button } from "flowbite-react";
 import { FcGoogle } from "react-icons/fc";
 
 const SocialAuth = () => {
+  const redirectUrl = `${window.location.origin}/dashboard`;
+
   const handleLogin = async (provider) => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: "http://localhost:3000/dashboard",
+        redirectTo: redirectUrl,
       },
     });
 

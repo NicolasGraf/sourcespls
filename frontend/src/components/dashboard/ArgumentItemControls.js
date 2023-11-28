@@ -10,7 +10,7 @@ const ArgumentItemControls = ({
 }) => {
   if (!isEditing)
     return (
-      <Button className="self-start" onClick={() => setIsEditing(true)}>
+      <Button className="self-start mt-4" onClick={() => setIsEditing(true)}>
         Edit
         <BiEdit className="ml-1 text-lg" />
       </Button>

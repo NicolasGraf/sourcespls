@@ -32,7 +32,7 @@ const ArgumentEditArea = ({ saveArgument, argumentId }) => {
         hasError={false}
         onSubmit={onSaveSource}
       />
-      <div className="flex gap-4 items-end justify-start">
+      <div className="flex gap-4 mt-4 items-end justify-start">
         <Button onClick={saveArgument}>
           <span>Save</span>
           <BiSave className="ml-1 text-lg" />
