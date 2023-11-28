@@ -48,10 +48,14 @@ const customTheme = {
           primary:
             "bg-gray-50 border-gray-300 text-gray-900 focus:border-accent focus:ring-accent dark:border-primary-dark dark:bg-secondary-dark dark:text-white dark:placeholder-secondary-light dark:focus:border-accent dark:focus:ring-accent",
         },
+        sizes: {
+          lg: "sm:text-md p-4 focus:pr-20",
+        },
       },
     },
   },
   textarea: {
+    base: "block w-full rounded-lg border disabled:cursor-not-allowed disabled:opacity-50 text-sm focus:pr-20 no-scrollbar",
     colors: {
       primary:
         "bg-gray-50 border-gray-300 text-gray-900 focus:border-accent focus:ring-accent dark:border-primary-dark dark:bg-secondary-dark dark:text-white dark:placeholder-secondary-light dark:focus:border-accent dark:focus:ring-accent",

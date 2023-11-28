@@ -1,6 +1,8 @@
-import { Button, Spinner, Textarea, TextInput } from "flowbite-react";
+import { Button, Spinner } from "flowbite-react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useToast } from "../../lib/toastProvider";
+import SourceFormUrlInput from "./SourceFormUrlInput";
+import SourceFormTextarea from "./SourceFormTextarea";
 
 const SourceEditorForm = ({
   sourceValue,
@@ -9,33 +11,12 @@ const SourceEditorForm = ({
   onSubmit,
   onUrlInputChange,
   isLoading,
-  hasError,
 }) => {
   const { showToast } = useToast();
   return (
     <form onSubmit={onSubmit}>
-      <TextInput
-        type="url"
-        required
-        placeholder={`Enter URL`}
-        className="w-full mb-4"
-        value={sourceValue}
-        onChange={(event) => onUrlInputChange(event.target.value)}
-        color={hasError ? "failure" : "primary"}
-        helperText={
-          hasError && (
-            <span className="font-medium">Could not save this URL</span>
-          )
-        }
-      />
-      <Textarea
-        color="primary"
-        value={quoteValue}
-        className="w-full mb-4"
-        placeholder="Add a quote from the source"
-        rows={4}
-        onChange={(event) => onQuoteInputChange(event.target.value)}
-      />
+      <SourceFormUrlInput value={sourceValue} onChange={onUrlInputChange} />
+      <SourceFormTextarea value={quoteValue} onChange={onQuoteInputChange} />
       <div className="w-full flex items-center justify-between">
         <Button
           type={"submit"}
