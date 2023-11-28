@@ -2,8 +2,12 @@ import { DarkThemeToggle, Navbar } from "flowbite-react";
 import { Link } from "react-router-dom";
 import HeaderLink from "./HeaderLink";
 import HeaderLogin from "./HeaderLogin";
+import { useAuth } from "../../lib/authProvider";
 
 const Header = () => {
+  const { user } = useAuth();
+  const isLoggedIn = !!user;
+
   return (
     <header>
       <Navbar fluid rounded>
@@ -23,6 +27,7 @@ const Header = () => {
         <Navbar.Toggle />
         <Navbar.Collapse>
           <HeaderLink to={"/"} text={"Home"} />
+          {isLoggedIn && <HeaderLink to={"/dashboard"} text={"Dashboard"} />}
           <HeaderLink to={"/about"} text={"About"} />
           <HeaderLogin />
         </Navbar.Collapse>

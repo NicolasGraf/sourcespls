@@ -79,7 +79,7 @@ const getAllArguments = async (session) => {
     return { data };
   } catch (error) {
     console.error(error);
-    return [];
+    return { error };
   }
 };
 

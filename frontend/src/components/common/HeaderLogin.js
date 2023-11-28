@@ -17,7 +17,7 @@ const HeaderLogin = () => {
   return (
     <Button
       outline
-      className="dark:text-secondary-light hover:dark:text-accent"
+      className="text-primary-dark hover:text-accent dark:text-secondary-light hover:dark:text-accent focus:ring-0"
       onClick={onClick}
     >
       {user ? "Logout" : "Login"}

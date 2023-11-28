@@ -5,7 +5,7 @@
 :root {
   --accent: #EB5E28;
   --primary-light: #fffcf7;
-  --secondary-light: #CCC5B9;
+  --secondary-light: #f3ece9;
   --primary-dark: #252422;
   --secondary-dark: #13120c;
   --border-light: #e1e1e1;
@@ -16,6 +16,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Lato', sans-serif;
+}
+
+a {
+    color: var(--accent);
 }
 
 code {

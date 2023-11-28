@@ -18,7 +18,6 @@ export const DashboardProvider = ({ children }) => {
       const { data, error } = await getAllArguments(session);
       setArgumentsLoading(false);
       if (error) {
-        console.error(error);
         return;
       }
       setUserArguments(data);

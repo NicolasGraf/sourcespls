@@ -6,6 +6,7 @@ import { Flowbite } from "flowbite-react";
 import customTheme from "./lib/theme";
 import AppFooter from "./components/common/AppFooter";
 import LoginPage from "./pages/LoginPage";
+import AboutPage from "./pages/AboutPage";
 import DashboardPage from "./pages/DashboardPage";
 import RequireAuth from "./components/common/RequireAuth";
 import { AuthProvider } from "./lib/authProvider";
@@ -43,6 +44,7 @@ function App() {
                   </RequireAuth>
                 }
               />
+              <Route path="/about" element={<AboutPage />} />
               <Route path="/:slug" element={<ArgumentPage />} />
             </Routes>
             <AppFooter />
