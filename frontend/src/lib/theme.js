@@ -80,7 +80,7 @@ const customTheme = {
     },
     copyright: {
       base: "text-sm text-primary-dark dark:text-secondary-light sm:text-center",
-      href: "ml-1 hover:underline",
+      href: "ml-1 text-inherit hover:underline",
       span: "ml-1",
     },
     icon: {
@@ -103,6 +103,16 @@ const customTheme = {
       open: {
         on: "bg-primary-light dark:bg-secondary-dark",
       },
+    },
+  },
+  toast: {
+    root: {
+      base: "flex w-full max-w-md items-center rounded-lg bg-white px-4 py-3 text-primary-dark shadow dark:bg-primary-dark dark:text-primary-light border border-primary-dark dark:border-secondary-dark",
+      closed: "opacity-0 ease-out",
+    },
+    toggle: {
+      base: "ml-2 inline-flex h-8 w-8 rounded-lg p-1.5 dark:hover:bg-secondary-dark focus:bg-transparent focus:outline-none active:bg-transparent",
+      icon: "h-5 w-5 shrink-0",
     },
   },
 };

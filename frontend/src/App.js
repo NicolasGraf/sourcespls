@@ -12,6 +12,8 @@ import RequireAuth from "./components/common/RequireAuth";
 import { AuthProvider } from "./lib/authProvider";
 import { MainPageProvider } from "./lib/mainPageContext";
 import { DashboardProvider } from "./lib/dashboardPageContext";
+import { ToastProvider } from "./lib/toastProvider";
+import ToastPortal from "./components/common/ToastPortal";
 
 function App() {
   const prefersDarkMode = window.matchMedia(
@@ -23,31 +25,34 @@ function App() {
       <Flowbite theme={{ dark: prefersDarkMode, theme: customTheme }}>
         <Router>
           <AuthProvider>
-            <Header />
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <MainPageProvider>
-                    <MainPage />
-                  </MainPageProvider>
-                }
-              />
-              <Route path="/login" element={<LoginPage />} />
-              <Route
-                path="/dashboard"
-                element={
-                  <RequireAuth>
-                    <DashboardProvider>
-                      <DashboardPage />
-                    </DashboardProvider>
-                  </RequireAuth>
-                }
-              />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/:slug" element={<ArgumentPage />} />
-            </Routes>
-            <AppFooter />
+            <ToastProvider>
+              <Header />
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <MainPageProvider>
+                      <MainPage />
+                    </MainPageProvider>
+                  }
+                />
+                <Route path="/login" element={<LoginPage />} />
+                <Route
+                  path="/dashboard"
+                  element={
+                    <RequireAuth>
+                      <DashboardProvider>
+                        <DashboardPage />
+                      </DashboardProvider>
+                    </RequireAuth>
+                  }
+                />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/:slug" element={<ArgumentPage />} />
+              </Routes>
+              <AppFooter />
+              <ToastPortal />
+            </ToastProvider>
           </AuthProvider>
         </Router>
       </Flowbite>

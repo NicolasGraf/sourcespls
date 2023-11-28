@@ -1,14 +1,21 @@
 import { Button, Card } from "flowbite-react";
-import { IoClose } from "react-icons/io5";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import SourceQuote from "./SourceQuote";
 import SourceImage from "./SourceImage";
+import { BiTrash } from "react-icons/bi";
 
 const SourceContainer = ({ source, onDelete, editable }) => {
   const { id, url, title, description, imageUrl, siteName, icon } = source;
 
   const visitUrl = () => {
     window.open(url, "_blank");
+  };
+
+  const shortenDescription = (description) => {
+    if (description.length > 100) {
+      return description.slice(0, 100) + "...";
+    }
+    return description;
   };
 
   return (
@@ -23,19 +30,19 @@ const SourceContainer = ({ source, onDelete, editable }) => {
           <h3 className="text-lg font-medium">{title}</h3>
           {description && (
             <p className="text-primary-dark dark:text-secondary-light">
-              {description}
+              {shortenDescription(description)}
             </p>
           )}
           <SourceQuote source={source} />
-          <Button className="self-start mt-4" onClick={visitUrl}>
+          <Button className="self-start mt-2 md:mt-4" onClick={visitUrl}>
             <FaExternalLinkAlt className="mr-2" />
             Visit
           </Button>
         </div>
         {editable && (
-          <IoClose
+          <BiTrash
             onClick={() => onDelete(id)}
-            className="absolute top-0 right-0 text-2xl text-gray-500 cursor-pointer"
+            className="absolute top-0 right-0 text-2xl text-primary-dark dark:text-secondary-light cursor-pointer"
           />
         )}
       </div>

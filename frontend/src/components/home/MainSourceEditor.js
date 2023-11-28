@@ -33,7 +33,7 @@ const MainSourceEditor = ({ saveSource }) => {
       />
       <IoClose
         onClick={() => setSourceInputValue(null)}
-        className="text-2xl text-gray-500 cursor-pointer absolute top-4 right-4 z-20"
+        className="text-2xl text-primary-dark dark:text-secondary-light cursor-pointer absolute top-4 right-4 z-20"
       />
     </Card>
   );

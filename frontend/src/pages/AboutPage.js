@@ -2,7 +2,8 @@ import { Accordion } from "flowbite-react";
 import { Link } from "react-router-dom";
 
 const AboutPage = () => {
-  const exampleLink = "https://sourcespls.com/2342362";
+  const exampleLink = "https://sourcespls.com/fF6-DzpU";
+
   return (
     <main className="container max-w-6xl mx-auto px-4 py-8 text-center text-primary-dark dark:text-primary-light flex flex-col ">
       <h1 className="text-4xl md:text-5xl mb-12 w-full">About</h1>

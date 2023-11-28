@@ -31,8 +31,8 @@ const SourceQuote = ({ source }) => {
     );
   };
   return (
-    <div className="text-primary-dark dark:text-secondary-light mt-4">
-      <div className="flex flex-col md:flex-row items-center gap-2">
+    <div className="text-primary-dark dark:text-secondary-light md:mt-4">
+      <div className="flex flex-col md:flex-row items-center gap-0.5 md:gap-2">
         <span className="text-xl md:text-3xl self-start">
           <BiSolidQuoteLeft />
         </span>
