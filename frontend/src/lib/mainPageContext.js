@@ -6,7 +6,6 @@ export const MainPageProvider = ({ children }) => {
   const [sources, setSources] = useState([]);
   const [isLinkLoading, setIsLinkLoading] = useState(false);
   const [argumentTitle, setArgumentTitle] = useState("");
-  const [createdLink, setCreatedLink] = useState(null);
   const [sourceInputValue, setSourceInputValue] = useState(null);
   const [quoteInputValue, setQuoteInputValue] = useState(null);
   const [isSourceLoading, setIsSourceLoading] = useState(false);
@@ -21,8 +20,6 @@ export const MainPageProvider = ({ children }) => {
         setIsLinkLoading,
         argumentTitle,
         setArgumentTitle,
-        createdLink,
-        setCreatedLink,
         sourceInputValue,
         setSourceInputValue,
         quoteInputValue,

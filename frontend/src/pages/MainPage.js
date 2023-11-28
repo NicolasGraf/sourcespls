@@ -1,40 +1,12 @@
 import PreviewSources from "../components/sources/PreviewSources";
 import SeparatorResponsive from "../components/common/SeparatorResponsive";
 import MainArgumentEditor from "../components/home/MainArgumentEditor";
-import { saveArgument } from "../lib/apiController";
 import LinkCreator from "../components/home/LinkCreator";
-import { useAuth } from "../lib/authProvider";
 import Separator from "../components/common/Seperator";
 import { useMainPageContext } from "../lib/mainPageContext";
 
 export const MainPage = () => {
-  const { session } = useAuth();
-  const {
-    setIsLinkLoading,
-    sources,
-    setSources,
-    argumentTitle,
-    setCreatedLink,
-  } = useMainPageContext();
-  const createArgument = async () => {
-    const sourceIds = sources.map((source) => source.id);
-    setIsLinkLoading(true);
-    try {
-      const { data, error } = await saveArgument({
-        argumentTitle,
-        sourceIds,
-        session,
-      });
-
-      if (error) return console.error(error);
-      const host = window.location.origin;
-      setCreatedLink(`${host}/${data.slug}`);
-    } catch (error) {
-      console.error("Failed to fetch URL data:", error);
-    } finally {
-      setIsLinkLoading(false);
-    }
-  };
+  const { sources, setSources } = useMainPageContext();
 
   return (
     <main className="container mx-auto px-4 py-8 text-center dark:text-primary-light md:flex md:flex-row md:flex-wrap">
@@ -45,7 +17,7 @@ export const MainPage = () => {
       <div className="flex-1">
         <MainArgumentEditor />
         <Separator />
-        <LinkCreator createLink={createArgument} />
+        <LinkCreator />
       </div>
       <SeparatorResponsive />
       <div className="flex-1 h-full">

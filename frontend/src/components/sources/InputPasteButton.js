@@ -1,8 +1,8 @@
-const InputPasteButton = ({ inputRef }) => {
+const InputPasteButton = ({ onChange }) => {
   const handlePaste = (e) => {
     e.preventDefault();
     navigator.clipboard.readText().then((text) => {
-      inputRef.current.value = text;
+      onChange(text);
     });
   };
 
