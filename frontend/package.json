@@ -2,7 +2,6 @@
   "name": "sourcespls",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/",
   "dependencies": {
     "@supabase/supabase-js": "^2.38.5",
     "autoprefixer": "^10.4.16",
