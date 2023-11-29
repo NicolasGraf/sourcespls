@@ -34,6 +34,7 @@ const customTheme = {
   card: {
     root: {
       base: "flex rounded-lg border border-gray-200 bg-white shadow-md dark:border-border-dark dark:bg-secondary-dark",
+      children: "flex h-full flex-col justify-center gap-2 md:gap-4 p-4 md:p-6",
     },
   },
   spinner: {

@@ -5,13 +5,14 @@ const HeaderLink = ({ to, text }) => {
   const location = useLocation();
   const linkHandler = useLinkClickHandler(to);
 
+  const getActive = () => {
+    const active = location.pathname === to;
+    const activeSubRoute = location.pathname.startsWith(`${to}/`);
+    return active || activeSubRoute;
+  };
+
   return (
-    <Navbar.Link
-      as={"a"}
-      onClick={linkHandler}
-      href={to}
-      active={location.pathname === to}
-    >
+    <Navbar.Link as={"a"} onClick={linkHandler} href={to} active={getActive()}>
       {text}
     </Navbar.Link>
   );

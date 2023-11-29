@@ -18,7 +18,7 @@ const ArgumentItemHeader = ({ argument, isEditing, argumentUrl }) => {
     <div className="flex gap-4">
       <h5
         ref={titleRef}
-        className="text-xl flex-1 focus:outline-accent focus:ring-0 focus:outline"
+        className="text-lg md:text-xl font-bold flex-1 focus:outline-accent focus:ring-0 focus:outline"
         contentEditable={isEditing}
         onInput={onTitleInputChanged}
       ></h5>
