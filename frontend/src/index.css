@@ -55,11 +55,6 @@ code {
     background-repeat: repeat-x;
     transition: all 0.5s ease;
     animation: rainbow 3s linear infinite;
-    animation-play-state: paused;
-}
-
-.rainbow:hover {
-    animation-play-state: running;
 }
 
 @keyframes rainbow {

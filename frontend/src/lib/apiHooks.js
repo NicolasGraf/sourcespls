@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useAuth } from "./authProvider";
+import { useToast } from "./toastProvider";
 
 const API_URL =
   process.env.NODE_ENV === "development"
@@ -9,8 +11,10 @@ const useSaveArgument = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
+  const { session } = useAuth();
+  const { showToast } = useToast();
 
-  const saveArgument = async ({ argumentTitle, sourceIds, session }) => {
+  const saveArgument = async ({ argumentTitle, sourceIds }) => {
     setLoading(true);
     setError(null);
 
@@ -35,11 +39,14 @@ const useSaveArgument = () => {
         body: JSON.stringify(body),
       });
 
-      const result = await response.json();
-      if (result.error) throw result.error;
-      setData(result.data);
+      const { data, error } = await response.json();
+      if (error) throw error;
+
+      setData(data);
+      showToast({ type: "success", text: "Successfully created a link." });
     } catch (err) {
       console.error(err);
+      showToast({ type: "failure", text: "Could not create the link." });
       setError(err);
     } finally {
       setLoading(false);
@@ -49,4 +56,49 @@ const useSaveArgument = () => {
   return { saveArgument, loading, data, error };
 };
 
-export default useSaveArgument;
+const useUpdateArgument = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [data, setData] = useState(null);
+  const { session } = useAuth();
+  const { showToast } = useToast();
+
+  const updateArgument = async ({ slug, argumentTitle, sourceIds }) => {
+    setLoading(true);
+    setError(null);
+
+    const body = {
+      title: argumentTitle,
+      sourceIds,
+    };
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${session.access_token}`,
+    };
+
+    try {
+      const response = await fetch(`${API_URL}/arguments/${slug}`, {
+        method: "PUT",
+        headers,
+        body: JSON.stringify(body),
+      });
+
+      const { data, error } = await response.json();
+      if (error) throw error;
+
+      setData(data);
+      showToast({ type: "success", text: "Successfully updated argument." });
+    } catch (err) {
+      console.error(err);
+      showToast({ type: "failure", text: "Could not update argument." });
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { updateArgument, loading, data, error };
+};
+
+export { useSaveArgument, useUpdateArgument };

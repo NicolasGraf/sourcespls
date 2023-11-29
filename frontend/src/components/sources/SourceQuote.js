@@ -1,6 +1,5 @@
 import { FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
 import { BiSolidQuoteLeft, BiSolidQuoteRight } from "react-icons/bi";
-import { Tooltip } from "flowbite-react";
 
 const SourceQuote = ({ source }) => {
   const { quote } = source;
@@ -9,40 +8,31 @@ const SourceQuote = ({ source }) => {
   const getVerifiedQuoteIcon = () => {
     if (source.quoteVerified) {
       return (
-        <Tooltip
-          content={"This quote was found in the source."}
-          style={"auto"}
-          placement={"top"}
-        >
+        <>
           <FaCheckCircle className="text-2xl text-green-500" />
-        </Tooltip>
+          <span>This quote was found in the source.</span>
+        </>
       );
     }
     return (
-      <Tooltip
-        style={"auto"}
-        className="w-max"
-        content={
-          "The quote couldn't be found in the source. This might be due to a paywall."
-        }
-      >
+      <>
         <FaExclamationCircle className="text-2xl text-orange-800" />
-      </Tooltip>
+        <span>
+          The quote couldn't be found in the source. This might be due to a
+          paywall.
+        </span>
+      </>
     );
   };
   return (
-    <div className="text-primary-dark dark:text-secondary-light md:mt-4">
-      <div className="flex flex-col md:flex-row items-center gap-0.5 md:gap-2">
-        <span className="text-xl md:text-3xl self-start">
-          <BiSolidQuoteLeft />
-        </span>
-        <span className="bg-[#ffed9c] dark:bg-[#dcc76a] dark:text-secondary-dark text-lg px-1">
-          {quote}
-        </span>
-        <span className="text-xl md:text-3xl self-end">
-          <BiSolidQuoteRight />
-        </span>
-        <div className="self-start">{getVerifiedQuoteIcon()}</div>
+    <div className="text-primary-dark dark:text-secondary-light mt-4">
+      <div className="flex flex-col items-center gap-4">
+        <p className="bg-[#ffed9c] dark:bg-[#fbf06f] dark:text-secondary-dark text-lg md:text-xl font-bold px-1">
+          <BiSolidQuoteLeft className={"inline text-2xl mr-2"} />
+          <span className="inline">{quote}</span>
+          <BiSolidQuoteRight className="inline text-2xl ml-2" />
+        </p>
+        <div className="self-start flex gap-2">{getVerifiedQuoteIcon()}</div>
       </div>
     </div>
   );

@@ -1,16 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { useAuth } from "../../lib/authProvider";
-import { updateArgument } from "../../lib/apiController";
 import { Card, Spinner } from "flowbite-react";
 import ArgumentLink from "./ArgumentLink";
 import ArgumentItemControls from "./ArgumentItemControls";
 import ArgumentItemHeader from "./ArgumentItemHeader";
-import { useDashBoardContext } from "../../lib/dashboardPageContext";
+import { useUpdateArgument } from "../../lib/apiHooks";
 
 const ArgumentItem = ({ argument, isActive, onSelect }) => {
-  const { session } = useAuth();
-  const { editLoading, setEditLoading } = useDashBoardContext();
-  const { title, slug } = argument;
+  const { updateArgument, loading, data, error } = useUpdateArgument();
+  const { slug } = argument;
   const fullUrl = `${window.location.origin}/${slug}`;
 
   const [isLocalEditing, setIsLocalEditing] = useState(false);
@@ -34,16 +31,11 @@ const ArgumentItem = ({ argument, isActive, onSelect }) => {
     const sourceIds = argument.sources.map((source) => source.id);
     const argumentTitle = argument.title;
 
-    setEditLoading(true);
-
-    const { data } = await updateArgument({
+    await updateArgument({
       slug,
       argumentTitle,
       sourceIds,
-      session,
     });
-
-    setEditLoading(false);
     setIsLocalEditing(false);
   };
 
@@ -69,7 +61,7 @@ const ArgumentItem = ({ argument, isActive, onSelect }) => {
           onSave={onSave}
           argumentId={argument.id}
         />
-        {editLoading && isActive && (
+        {loading && isActive && (
           <span className="absolute bottom-6 right-6">
             <Spinner />
           </span>

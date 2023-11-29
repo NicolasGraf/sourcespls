@@ -1,7 +1,7 @@
 import { Button, Spinner } from "flowbite-react";
 import ResultLink from "./ResultLink";
 import { useMainPageContext } from "../../lib/mainPageContext";
-import useSaveArgument from "../../lib/apiHooks";
+import { useSaveArgument } from "../../lib/apiHooks";
 import { useEffect, useState } from "react";
 
 const LinkCreator = () => {
