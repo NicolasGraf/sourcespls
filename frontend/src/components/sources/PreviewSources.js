@@ -1,17 +1,23 @@
 import SourceContainer from "./SourceContainer";
 import { useAuth } from "../../lib/authProvider";
 import { useDeleteSourceById } from "../../lib/apiHooks";
+import { useEffect } from "react";
 
 const PreviewSources = ({ sources, onSetSources, editable }) => {
   const noSources = sources.length === 0;
   const { session } = useAuth();
-  const { deleteSourceById } = useDeleteSourceById();
+  const { deleteSourceById, data } = useDeleteSourceById();
 
   const onDelete = async (id) => {
     await deleteSourceById(id, session);
-    const newSources = sources.filter((source) => source.id !== id);
-    onSetSources(newSources);
   };
+
+  useEffect(() => {
+    if (data) {
+      const newSources = sources.filter((source) => source.id !== data.id);
+      onSetSources(newSources);
+    }
+  }, [data]);
 
   return (
     <div>

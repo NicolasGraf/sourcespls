@@ -19,7 +19,6 @@ router.post("/", async (req, res, next) => {
 router.delete("/:id", resolveToken, async (req, res, next) => {
   try {
     const { id } = req.params;
-    console.log(req.user);
     const userId = req.user ? req.user.id : null;
 
     const { data } = await deleteSource(id, userId);

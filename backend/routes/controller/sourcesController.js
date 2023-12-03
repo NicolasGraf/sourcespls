@@ -55,8 +55,6 @@ const deleteSource = async (id, userId) => {
     .match({ id: id })
     .single();
 
-  console.log(source, userId);
-
   const { data: userArgument } = await sbClient
     .from("arguments")
     .select()
@@ -67,7 +65,9 @@ const deleteSource = async (id, userId) => {
     const { data, error } = await sbClient
       .from("sources")
       .delete()
-      .match({ id: id });
+      .match({ id: id })
+      .select()
+      .single();
 
     if (error) throw error;
     return { data };
@@ -81,7 +81,9 @@ const deleteSource = async (id, userId) => {
     const { data, error } = await sbClient
       .from("sources")
       .delete()
-      .match({ id: id });
+      .match({ id: id })
+      .select()
+      .single();
 
     if (error) throw error;
     return { data };
