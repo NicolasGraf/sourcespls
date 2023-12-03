@@ -3,6 +3,7 @@ import LoadingArgument from "../arguments/LoadingArgument";
 import { useAdminContext } from "../../lib/AdminContext";
 import { useGetAllArguments } from "../../lib/apiHooks";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const PersonalArgumentList = () => {
   const {
@@ -23,7 +24,12 @@ const PersonalArgumentList = () => {
 
   return (
     <div className="flex flex-col w-full gap-4">
-      {userArguments.length === 0 && <p>No saved arguments</p>}
+      {userArguments.length === 0 && (
+        <>
+          <p>No saved arguments</p>
+          <Link to={`/`}>Create your first argument</Link>
+        </>
+      )}
       {userArguments.map((argument, index) => (
         <ArgumentItem
           key={argument.id}

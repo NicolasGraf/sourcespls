@@ -61,7 +61,7 @@ const HomeArgumentEditor = () => {
 
   return (
     <>
-      <h2 className="text-xl mb-4">
+      <h2 className="text-xl text-left md:text-center font-light mb-4">
         Enter a title to your argument, and provide sources and quotes.
       </h2>
       <TitleInput title={argumentTitle} onChange={setArgumentTitle} />
