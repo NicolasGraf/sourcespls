@@ -1,10 +1,10 @@
-import { Button, Card } from "flowbite-react";
+import { Button, Card, Spinner } from "flowbite-react";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import SourceQuote from "./SourceQuote";
 import SourceImage from "./SourceImage";
 import { BiTrash } from "react-icons/bi";
 
-const SourceContainer = ({ source, onDelete, editable }) => {
+const SourceContainer = ({ source, onDelete, editable, loading }) => {
   const { id, url, title, description, imageUrl, siteName, icon } = source;
 
   const visitUrl = () => {
@@ -47,6 +47,7 @@ const SourceContainer = ({ source, onDelete, editable }) => {
             className="absolute top-0 right-0 text-2xl text-primary-dark dark:text-secondary-light cursor-pointer"
           />
         )}
+        {loading && <Spinner className="absolute bottom-0 right-0" />}
       </div>
     </Card>
   );

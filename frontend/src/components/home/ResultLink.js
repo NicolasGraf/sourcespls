@@ -2,6 +2,7 @@ import { Card } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { BiCopy } from "react-icons/bi";
 import { useToast } from "../../lib/toastProvider";
+import ResultLinkNotice from "./ResultLinkNotice";
 
 const ResultLink = ({ createdLink }) => {
   const { showToast } = useToast();
@@ -22,14 +23,8 @@ const ResultLink = ({ createdLink }) => {
             className="relative text-2xl text-primary-dark dark:text-secondary-light cursor-pointer active:top-0.5"
           />
         </div>
+        <ResultLinkNotice />
       </Card>
-      <h4 className="mt-2 italic">
-        This link will expire in 7 days. To save your links, you can{" "}
-        <Link className="text-accent" to={"/login"}>
-          sign in
-        </Link>
-        .
-      </h4>
     </>
   );
 };

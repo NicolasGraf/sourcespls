@@ -7,6 +7,7 @@ const ArgumentItemControls = ({
   setIsEditing,
   onSave,
   argumentId,
+  updateLoading,
 }) => {
   if (!isEditing)
     return (
@@ -16,7 +17,13 @@ const ArgumentItemControls = ({
       </Button>
     );
 
-  return <ArgumentEditArea saveArgument={onSave} argumentId={argumentId} />;
+  return (
+    <ArgumentEditArea
+      saveArgument={onSave}
+      argumentId={argumentId}
+      updateLoading={updateLoading}
+    />
+  );
 };
 
 export default ArgumentItemControls;

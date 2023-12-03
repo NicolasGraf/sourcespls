@@ -14,7 +14,11 @@ const useSaveArgument = () => {
   const { session } = useAuth();
   const { showToast } = useToast();
 
-  const saveArgument = async ({ argumentTitle, sourceIds }) => {
+  const saveArgument = async ({
+    argumentTitle,
+    sourceIds,
+    hideToast = false,
+  }) => {
     setLoading(true);
     setError(null);
 
@@ -43,10 +47,11 @@ const useSaveArgument = () => {
       if (error) throw error;
 
       setData(data);
-      showToast({ type: "success", text: "Successfully created a link." });
+      if (!hideToast)
+        showToast({ type: "success", text: "Successfully created a link." });
     } catch (err) {
-      console.error(err);
-      showToast({ type: "failure", text: "Could not create the link." });
+      if (!hideToast)
+        showToast({ type: "failure", text: "Could not create the link." });
       setError(err);
     } finally {
       setLoading(false);
@@ -63,7 +68,12 @@ const useUpdateArgument = () => {
   const { session } = useAuth();
   const { showToast } = useToast();
 
-  const updateArgument = async ({ slug, argumentTitle, sourceIds }) => {
+  const updateArgument = async ({
+    slug,
+    argumentTitle,
+    sourceIds,
+    hideToast = false,
+  }) => {
     setLoading(true);
     setError(null);
 
@@ -91,10 +101,12 @@ const useUpdateArgument = () => {
       if (error) throw error;
 
       setData(data);
-      showToast({ type: "success", text: "Successfully updated argument." });
+      if (!hideToast)
+        showToast({ type: "success", text: "Successfully updated argument." });
     } catch (err) {
       console.error(err);
-      showToast({ type: "failure", text: "Could not update argument." });
+      if (!hideToast)
+        showToast({ type: "failure", text: "Could not update argument." });
       setError(err);
     } finally {
       setLoading(false);
@@ -221,11 +233,13 @@ const useDeleteSourceById = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
+  const [idToDelete, setIdToDelete] = useState(null);
   const { session } = useAuth();
   const { showToast } = useToast();
 
-  const deleteSourceById = async (id) => {
+  const deleteSourceById = async (id, hideToast = false) => {
     setLoading(true);
+    setIdToDelete(id);
     setError(null);
 
     try {
@@ -245,17 +259,20 @@ const useDeleteSourceById = () => {
       const { data, error } = await response.json();
       if (error) throw error;
       setData(data);
-      showToast({ type: "success", text: "Successfully deleted source." });
+      if (!hideToast)
+        showToast({ type: "success", text: "Successfully deleted source." });
     } catch (err) {
       console.error(err);
       setError(err);
-      showToast({ type: "failure", text: "Could not delete source." });
+      if (!hideToast)
+        showToast({ type: "failure", text: "Could not delete source." });
     } finally {
       setLoading(false);
+      setIdToDelete(null);
     }
   };
 
-  return { deleteSourceById, data, loading, error };
+  return { deleteSourceById, data, loading, error, idToDelete };
 };
 
 const useDeleteArgumentById = () => {

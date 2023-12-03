@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { Card, Spinner } from "flowbite-react";
+import { Card } from "flowbite-react";
 import ArgumentLink from "./ArgumentLink";
 import ArgumentItemControls from "./ArgumentItemControls";
 import ArgumentItemHeader from "./ArgumentItemHeader";
 import { useUpdateArgument } from "../../lib/apiHooks";
 
 const ArgumentItem = ({ argument, isActive, onSelect }) => {
-  const { updateArgument, loading, data, error } = useUpdateArgument();
+  const { updateArgument, loading } = useUpdateArgument();
   const { slug } = argument;
   const fullUrl = `${window.location.origin}/${slug}`;
 
@@ -60,12 +60,8 @@ const ArgumentItem = ({ argument, isActive, onSelect }) => {
           setIsEditing={setIsLocalEditing}
           onSave={onSave}
           argumentId={argument.id}
+          updateLoading={loading}
         />
-        {loading && isActive && (
-          <span className="absolute bottom-6 right-6">
-            <Spinner />
-          </span>
-        )}
       </Card>
     </div>
   );

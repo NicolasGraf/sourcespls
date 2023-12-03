@@ -26,7 +26,7 @@ const SourceQuote = ({ source }) => {
   };
   return (
     <div className="text-primary-dark dark:text-secondary-light mt-4">
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center md:items-start gap-4">
         <p className="bg-[#ffed9c] dark:bg-[#fbf06f] dark:text-secondary-dark text-lg md:text-xl font-bold px-1">
           <BiSolidQuoteLeft className={"inline text-2xl mr-2"} />
           <span className="inline">{quote}</span>

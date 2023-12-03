@@ -40,16 +40,16 @@ const HomeArgumentEditor = () => {
 
   const saveOrUpdateArgument = async (sources) => {
     setInputsEmpty();
-    console.log(sources);
     const sourceIds = sources.map((source) => source.id);
     if (createdArgumentSlug) {
       await updateArgument({
         slug: createdArgumentSlug,
         argumentTitle,
         sourceIds,
+        hideToast: true,
       });
     } else {
-      await saveArgument({ argumentTitle, sourceIds });
+      await saveArgument({ argumentTitle, sourceIds, hideToast: true });
     }
   };
 

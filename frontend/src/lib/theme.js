@@ -20,7 +20,7 @@ const customTheme = {
     },
     link: {
       active: {
-        on: "bg-accent md:bg-transparent md:text-accent",
+        on: "md:bg-transparent md:text-accent",
         off: "text-primary-dark dark:text-secondary-light dark:hover:text-white md:border-0 md:hover:bg-transparent md:hover:text-accent md:dark:hover:text-white",
       },
     },

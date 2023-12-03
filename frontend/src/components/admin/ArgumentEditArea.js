@@ -1,11 +1,11 @@
 import { Button } from "flowbite-react";
 import { useEffect, useState } from "react";
 import SourceEditorForm from "../sources/SourceEditorForm";
-import { BiSave, BiTrash } from "react-icons/bi";
+import { BiTrash } from "react-icons/bi";
 import { useAdminContext } from "../../lib/AdminContext";
 import { useDeleteArgumentById, useSaveSource } from "../../lib/apiHooks";
 
-const ArgumentEditArea = ({ saveArgument, argumentId }) => {
+const ArgumentEditArea = ({ saveArgument, argumentId, updateLoading }) => {
   const [sourceInputValue, setSourceInputValue] = useState("");
   const [quoteInputValue, setQuoteInputValue] = useState("");
   const { selectedSources, updateSources, onDeleteArgument } =
@@ -14,16 +14,17 @@ const ArgumentEditArea = ({ saveArgument, argumentId }) => {
     useDeleteArgumentById();
   const { saveSource, data, loading: saveLoading } = useSaveSource();
 
-  const onSaveSource = async (evt) => {
+  const handleSubmit = async (evt) => {
     evt.preventDefault();
     await saveSource(sourceInputValue, quoteInputValue);
   };
 
   useEffect(() => {
     if (data) {
-      updateSources([...selectedSources, data]);
       setSourceInputValue("");
       setQuoteInputValue("");
+      updateSources([...selectedSources, data]);
+      saveArgument();
     }
   }, [data]);
 
@@ -40,14 +41,10 @@ const ArgumentEditArea = ({ saveArgument, argumentId }) => {
         sourceValue={sourceInputValue}
         quoteValue={quoteInputValue}
         hasError={false}
-        onSubmit={onSaveSource}
-        isLoading={deleteLoading || saveLoading}
+        onSubmit={handleSubmit}
+        isLoading={saveLoading || updateLoading || deleteLoading}
       />
       <div className="flex gap-4 items-end justify-start">
-        <Button onClick={saveArgument}>
-          <span>Save</span>
-          <BiSave className="ml-1 text-lg" />
-        </Button>
         <Button
           color="failure"
           outline

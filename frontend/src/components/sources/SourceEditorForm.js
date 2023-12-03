@@ -1,7 +1,7 @@
 import { Button, Spinner } from "flowbite-react";
-import { AiOutlinePlus } from "react-icons/ai";
 import SourceFormUrlInput from "./SourceFormUrlInput";
 import SourceFormTextarea from "./SourceFormTextarea";
+import { BiSave } from "react-icons/bi";
 
 const SourceEditorForm = ({
   sourceValue,
@@ -21,8 +21,8 @@ const SourceEditorForm = ({
           disabled={isLoading || !sourceValue}
           className="self-start"
         >
-          Add
-          <AiOutlinePlus className="ml-2" />
+          Save
+          <BiSave className="ml-1 text-lg" />
         </Button>
         {isLoading && <Spinner />}
       </div>

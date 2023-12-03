@@ -29,7 +29,13 @@ export const AdminProvider = ({ children }) => {
     const index = newArguments.findIndex((argument) => argument.id === id);
     newArguments.splice(index, 1);
     setUserArguments(newArguments);
-    setSelectedArgument(0);
+
+    if (newArguments.length === 0) {
+      setSelectedArgument(null);
+      setSelectedSources([]);
+    } else {
+      setSelectedArgument(0);
+    }
   };
 
   const onUpdateArgument = (argument) => {
