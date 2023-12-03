@@ -103,10 +103,23 @@ const updateArgument = async (userId, slug, title, sourceIds) => {
 
   const sbClient = getSupabaseClient();
 
+  // check if the argument has any user id at all
+  const { data: argumentData, error: argumentError } = await sbClient
+    .from("arguments")
+    .select()
+    .eq("slug", slug)
+    .single();
+
+  if (argumentData.user_id && argumentData.user_id !== userId) {
+    throw {
+      status: 403,
+      message: "You are not allowed to update this argument.",
+    };
+  }
+
   const { data, error: updateError } = await sbClient
     .from("arguments")
     .update({ title })
-    .eq("user_id", userId)
     .eq("slug", slug)
     .select()
     .single();

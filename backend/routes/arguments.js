@@ -48,10 +48,10 @@ router.post("/", resolveToken, async (req, res, next) => {
   }
 });
 
-router.put("/:slug", checkAuth, async (req, res, next) => {
+router.put("/:slug", resolveToken, async (req, res, next) => {
   const { slug } = req.params;
-  const { id: userId } = req.user;
   const { title, sourceIds } = req.body;
+  const userId = req.user ? req.user.id : null;
 
   try {
     const { data } = await updateArgument(userId, slug, title, sourceIds);

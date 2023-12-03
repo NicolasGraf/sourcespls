@@ -5,7 +5,7 @@ import { useHomePageContext } from "../../lib/HomePageContext";
 import { useSaveSource } from "../../lib/apiHooks";
 import { useEffect } from "react";
 
-const MainSourceEditor = ({ resetSourceForm }) => {
+const HomeSourceEditor = ({ argumentLoading, onSaveSource }) => {
   const {
     sourceInputValue,
     setSourceInputValue,
@@ -18,12 +18,13 @@ const MainSourceEditor = ({ resetSourceForm }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     await saveSource(sourceInputValue, quoteInputValue);
-    resetSourceForm();
   };
 
   useEffect(() => {
     if (data) {
-      setSources([...sources, data]);
+      const updatedSources = [...sources, data];
+      setSources(updatedSources);
+      onSaveSource(updatedSources);
     }
   }, [data]);
 
@@ -38,7 +39,7 @@ const MainSourceEditor = ({ resetSourceForm }) => {
         onQuoteInputChange={setQuoteInputValue}
         sourceValue={sourceInputValue}
         quoteValue={quoteInputValue}
-        isLoading={loading}
+        isLoading={loading || argumentLoading}
       />
       <IoClose
         onClick={() => setSourceInputValue(null)}
@@ -48,4 +49,4 @@ const MainSourceEditor = ({ resetSourceForm }) => {
   );
 };
 
-export default MainSourceEditor;
+export default HomeSourceEditor;

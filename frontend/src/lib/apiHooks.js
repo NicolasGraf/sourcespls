@@ -74,8 +74,11 @@ const useUpdateArgument = () => {
 
     const headers = {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${session.access_token}`,
     };
+
+    if (session) {
+      headers["Authorization"] = `Bearer ${session.access_token}`;
+    }
 
     try {
       const response = await fetch(`${API_URL}/arguments/${slug}`, {

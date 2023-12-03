@@ -10,6 +10,7 @@ export const HomePageProvider = ({ children }) => {
   const [quoteInputValue, setQuoteInputValue] = useState(null);
   const [isSourceLoading, setIsSourceLoading] = useState(false);
   const [hasSourceError, setHasSourceError] = useState(false);
+  const [createdArgumentSlug, setCreatedArgumentSlug] = useState(null);
 
   return (
     <HomePageContext.Provider
@@ -28,6 +29,8 @@ export const HomePageProvider = ({ children }) => {
         setIsSourceLoading,
         hasSourceError,
         setHasSourceError,
+        createdArgumentSlug,
+        setCreatedArgumentSlug,
       }}
     >
       {children}
