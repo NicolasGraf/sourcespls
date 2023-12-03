@@ -1,8 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-const DashBoardContext = createContext(null);
+const AdminContext = createContext(null);
 
-export const DashboardProvider = ({ children }) => {
+export const AdminProvider = ({ children }) => {
   const [userArguments, setUserArguments] = useState([]);
   const [selectedArgument, setSelectedArgument] = useState(null);
   const [selectedSources, setSelectedSources] = useState([]);
@@ -39,7 +39,7 @@ export const DashboardProvider = ({ children }) => {
   };
 
   return (
-    <DashBoardContext.Provider
+    <AdminContext.Provider
       value={{
         selectedSources,
         userArguments,
@@ -52,8 +52,8 @@ export const DashboardProvider = ({ children }) => {
       }}
     >
       {children}
-    </DashBoardContext.Provider>
+    </AdminContext.Provider>
   );
 };
 
-export const useDashBoardContext = () => useContext(DashBoardContext);
+export const useAdminContext = () => useContext(AdminContext);

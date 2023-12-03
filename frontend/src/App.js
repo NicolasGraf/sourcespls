@@ -1,5 +1,5 @@
 import Header from "./components/common/Header";
-import { MainPage } from "./pages/MainPage";
+import { HomePage } from "./pages/HomePage";
 import {
   BrowserRouter as Router,
   Navigate,
@@ -16,7 +16,7 @@ import AdminPage from "./pages/AdminPage";
 import RequireAuth from "./components/common/RequireAuth";
 import { AuthProvider } from "./lib/authProvider";
 import { MainPageProvider } from "./lib/mainPageContext";
-import { DashboardProvider } from "./lib/dashboardPageContext";
+import { AdminProvider } from "./lib/AdminContext";
 import { ToastProvider } from "./lib/toastProvider";
 import ToastPortal from "./components/common/ToastPortal";
 import SavedArgsPage from "./pages/admin/SavedArgsPage";
@@ -38,7 +38,7 @@ function App() {
                   path="/"
                   element={
                     <MainPageProvider>
-                      <MainPage />
+                      <HomePage />
                     </MainPageProvider>
                   }
                 />
@@ -47,9 +47,9 @@ function App() {
                   path="/admin"
                   element={
                     <RequireAuth>
-                      <DashboardProvider>
+                      <AdminProvider>
                         <AdminPage />
-                      </DashboardProvider>
+                      </AdminProvider>
                     </RequireAuth>
                   }
                 >

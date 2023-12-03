@@ -1,6 +1,6 @@
 import ArgumentItem from "./ArgumentItem";
 import LoadingArgument from "../arguments/LoadingArgument";
-import { useDashBoardContext } from "../../lib/dashboardPageContext";
+import { useAdminContext } from "../../lib/AdminContext";
 import { useGetAllArguments } from "../../lib/apiHooks";
 import { useEffect } from "react";
 
@@ -10,7 +10,7 @@ const PersonalArgumentList = () => {
     setUserArguments,
     selectedArgument,
     setSelectedArgument,
-  } = useDashBoardContext();
+  } = useAdminContext();
   const { data, loading, error } = useGetAllArguments();
 
   useEffect(() => {

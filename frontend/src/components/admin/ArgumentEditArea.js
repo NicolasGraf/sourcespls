@@ -2,14 +2,14 @@ import { Button } from "flowbite-react";
 import { useEffect, useState } from "react";
 import SourceEditorForm from "../sources/SourceEditorForm";
 import { BiSave, BiTrash } from "react-icons/bi";
-import { useDashBoardContext } from "../../lib/dashboardPageContext";
+import { useAdminContext } from "../../lib/AdminContext";
 import { useDeleteArgumentById, useSaveSource } from "../../lib/apiHooks";
 
 const ArgumentEditArea = ({ saveArgument, argumentId }) => {
   const [sourceInputValue, setSourceInputValue] = useState("");
   const [quoteInputValue, setQuoteInputValue] = useState("");
   const { selectedSources, updateSources, onDeleteArgument } =
-    useDashBoardContext();
+    useAdminContext();
   const { deleteArgumentById, loading: deleteLoading } =
     useDeleteArgumentById();
   const { saveSource, data, loading: saveLoading } = useSaveSource();

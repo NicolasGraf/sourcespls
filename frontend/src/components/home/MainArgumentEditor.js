@@ -1,5 +1,5 @@
 import TitleInput from "./TitleInput";
-import AddSourceButton from "./AddSourceButton";
+import StartAddingSources from "./StartAddingSources";
 import { useMainPageContext } from "../../lib/mainPageContext";
 import MainSourceEditor from "./MainSourceEditor";
 
@@ -23,12 +23,12 @@ const MainArgumentEditor = () => {
         Enter a title to your argument, and provide sources and quotes.
       </h2>
       <TitleInput title={argumentTitle} onChange={setArgumentTitle} />
-      <AddSourceButton
+      <StartAddingSources
         hasTitle={argumentTitle !== ""}
         sourceInputValue={sourceInputValue}
-        addSource={setInputsEmpty}
+        onStartAdding={setInputsEmpty}
       />
-      <MainSourceEditor setInputsEmpty={setInputsEmpty} />
+      <MainSourceEditor resetSourceForm={setInputsEmpty} />
     </>
   );
 };

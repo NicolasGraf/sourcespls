@@ -1,10 +1,10 @@
-import PersonalArgumentList from "../../components/dashboard/PersonalArgumentList";
+import PersonalArgumentList from "../../components/admin/PersonalArgumentList";
 import SeparatorResponsive from "../../components/common/SeparatorResponsive";
 import PreviewSources from "../../components/sources/PreviewSources";
-import { useDashBoardContext } from "../../lib/dashboardPageContext";
+import { useAdminContext } from "../../lib/AdminContext";
 
 const SavedArgsPage = () => {
-  const { selectedSources, updateSources } = useDashBoardContext();
+  const { selectedSources, updateSources } = useAdminContext();
   console.log(selectedSources);
 
   return (

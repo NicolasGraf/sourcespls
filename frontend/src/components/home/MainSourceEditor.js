@@ -5,7 +5,7 @@ import { useMainPageContext } from "../../lib/mainPageContext";
 import { useSaveSource } from "../../lib/apiHooks";
 import { useEffect } from "react";
 
-const MainSourceEditor = ({ setInputsEmpty }) => {
+const MainSourceEditor = ({ resetSourceForm }) => {
   const {
     sourceInputValue,
     setSourceInputValue,
@@ -18,7 +18,7 @@ const MainSourceEditor = ({ setInputsEmpty }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     await saveSource(sourceInputValue, quoteInputValue);
-    setInputsEmpty();
+    resetSourceForm();
   };
 
   useEffect(() => {

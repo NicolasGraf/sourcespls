@@ -5,7 +5,7 @@ import LinkCreator from "../components/home/LinkCreator";
 import Separator from "../components/common/Seperator";
 import { useMainPageContext } from "../lib/mainPageContext";
 
-export const MainPage = () => {
+export const HomePage = () => {
   const { sources, setSources } = useMainPageContext();
 
   return (
