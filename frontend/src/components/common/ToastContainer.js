@@ -4,8 +4,6 @@ import { useToast } from "../../lib/toastProvider";
 
 const ToastContainer = () => {
   const { toasts } = useToast();
-  console.log("rendering toast container");
-  console.log(toasts);
 
   return (
     <div className="flex flex-col pointer-events-none gap-2 fixed bottom-8 md:bottom-20 items-center left-0 right-0 z-20">

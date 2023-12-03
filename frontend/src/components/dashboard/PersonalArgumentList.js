@@ -1,15 +1,25 @@
 import ArgumentItem from "./ArgumentItem";
 import LoadingArgument from "../arguments/LoadingArgument";
 import { useDashBoardContext } from "../../lib/dashboardPageContext";
+import { useGetAllArguments } from "../../lib/apiHooks";
+import { useEffect } from "react";
 
 const PersonalArgumentList = () => {
   const {
-    argumentsLoading,
     userArguments,
+    setUserArguments,
     selectedArgument,
     setSelectedArgument,
   } = useDashBoardContext();
-  if (argumentsLoading) return <LoadingArgument />;
+  const { data, loading, error } = useGetAllArguments();
+
+  useEffect(() => {
+    if (data) {
+      setUserArguments(data);
+    }
+  }, [data]);
+
+  if (loading) return <LoadingArgument />;
 
   return (
     <div className="flex flex-col w-full gap-4">

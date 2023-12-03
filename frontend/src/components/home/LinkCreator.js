@@ -29,7 +29,7 @@ const LinkCreator = () => {
         className="mb-4"
         onClick={() => createArgument()}
       >
-        Create Link
+        Create Argument
       </Button>
       {loading && <Spinner className="mx-auto mb-4" />}
       {!loading && <ResultLink createdLink={createdLink} />}

@@ -23,7 +23,7 @@ export const MainPage = () => {
       <div className="flex-1 h-full">
         <PreviewSources
           sources={sources}
-          setSources={setSources}
+          onSetSources={setSources}
           editable={true}
         />
       </div>

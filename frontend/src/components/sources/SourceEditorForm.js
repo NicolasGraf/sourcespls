@@ -1,6 +1,5 @@
 import { Button, Spinner } from "flowbite-react";
 import { AiOutlinePlus } from "react-icons/ai";
-import { useToast } from "../../lib/toastProvider";
 import SourceFormUrlInput from "./SourceFormUrlInput";
 import SourceFormTextarea from "./SourceFormTextarea";
 
@@ -12,7 +11,6 @@ const SourceEditorForm = ({
   onUrlInputChange,
   isLoading,
 }) => {
-  const { showToast } = useToast();
   return (
     <form onSubmit={onSubmit}>
       <SourceFormUrlInput value={sourceValue} onChange={onUrlInputChange} />

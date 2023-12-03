@@ -2,20 +2,30 @@ import { Card } from "flowbite-react";
 import { IoClose } from "react-icons/io5";
 import SourceEditorForm from "../sources/SourceEditorForm";
 import { useMainPageContext } from "../../lib/mainPageContext";
+import { useSaveSource } from "../../lib/apiHooks";
+import { useEffect } from "react";
 
-const MainSourceEditor = ({ saveSource }) => {
+const MainSourceEditor = ({ setInputsEmpty }) => {
   const {
     sourceInputValue,
     setSourceInputValue,
     quoteInputValue,
     setQuoteInputValue,
-    isSourceLoading,
-    hasSourceError,
+    setSources,
+    sources,
   } = useMainPageContext();
-  const handleSubmit = (event) => {
+  const { saveSource, data, loading, error } = useSaveSource();
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    saveSource();
+    await saveSource(sourceInputValue, quoteInputValue);
+    setInputsEmpty();
   };
+
+  useEffect(() => {
+    if (data) {
+      setSources([...sources, data]);
+    }
+  }, [data]);
 
   if (sourceInputValue === null) return null;
 
@@ -28,8 +38,7 @@ const MainSourceEditor = ({ saveSource }) => {
         onQuoteInputChange={setQuoteInputValue}
         sourceValue={sourceInputValue}
         quoteValue={quoteInputValue}
-        isLoading={isSourceLoading}
-        hasError={hasSourceError}
+        isLoading={loading}
       />
       <IoClose
         onClick={() => setSourceInputValue(null)}

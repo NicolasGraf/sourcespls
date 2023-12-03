@@ -4,7 +4,9 @@ import PreviewSources from "../../components/sources/PreviewSources";
 import { useDashBoardContext } from "../../lib/dashboardPageContext";
 
 const SavedArgsPage = () => {
-  const { sources, onSetSources, argumentsLoading } = useDashBoardContext();
+  const { selectedSources, updateSources } = useDashBoardContext();
+  console.log(selectedSources);
+
   return (
     <div className=" md:flex md:flex-row gap-4">
       <div className="flex-1 flex flex-col items-center gap-4">
@@ -13,13 +15,11 @@ const SavedArgsPage = () => {
       </div>
       <SeparatorResponsive />
       <div className="flex-1">
-        {!argumentsLoading && (
-          <PreviewSources
-            sources={sources}
-            onSetSources={onSetSources}
-            editable={true}
-          />
-        )}
+        <PreviewSources
+          sources={selectedSources}
+          onSetSources={updateSources}
+          editable={true}
+        />
       </div>
     </div>
   );

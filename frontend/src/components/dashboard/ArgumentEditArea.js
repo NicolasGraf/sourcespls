@@ -1,25 +1,35 @@
 import { Button } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SourceEditorForm from "../sources/SourceEditorForm";
-import { saveSource } from "../../lib/apiController";
 import { BiSave, BiTrash } from "react-icons/bi";
 import { useDashBoardContext } from "../../lib/dashboardPageContext";
+import { useDeleteArgumentById, useSaveSource } from "../../lib/apiHooks";
 
 const ArgumentEditArea = ({ saveArgument, argumentId }) => {
   const [sourceInputValue, setSourceInputValue] = useState("");
   const [quoteInputValue, setQuoteInputValue] = useState("");
-  const { sources, onSetSources, onDeleteArgument } = useDashBoardContext();
+  const { selectedSources, updateSources, onDeleteArgument } =
+    useDashBoardContext();
+  const { deleteArgumentById, loading: deleteLoading } =
+    useDeleteArgumentById();
+  const { saveSource, data, loading: saveLoading } = useSaveSource();
 
   const onSaveSource = async (evt) => {
     evt.preventDefault();
+    await saveSource(sourceInputValue, quoteInputValue);
+  };
 
-    const { data, error } = await saveSource(sourceInputValue, quoteInputValue);
-    if (error) {
-      console.error(error);
-      return;
+  useEffect(() => {
+    if (data) {
+      updateSources([...selectedSources, data]);
+      setSourceInputValue("");
+      setQuoteInputValue("");
     }
+  }, [data]);
 
-    onSetSources([...sources, data]);
+  const onDeleteArgumentById = async (id) => {
+    await deleteArgumentById(id);
+    onDeleteArgument(id);
   };
 
   return (
@@ -31,6 +41,7 @@ const ArgumentEditArea = ({ saveArgument, argumentId }) => {
         quoteValue={quoteInputValue}
         hasError={false}
         onSubmit={onSaveSource}
+        isLoading={deleteLoading || saveLoading}
       />
       <div className="flex gap-4 items-end justify-start">
         <Button onClick={saveArgument}>
@@ -40,7 +51,7 @@ const ArgumentEditArea = ({ saveArgument, argumentId }) => {
         <Button
           color="failure"
           outline
-          onClick={() => onDeleteArgument(argumentId)}
+          onClick={() => onDeleteArgumentById(argumentId)}
         >
           Delete
           <BiTrash className="ml-1 text-lg" />

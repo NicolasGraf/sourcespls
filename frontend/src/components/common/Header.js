@@ -27,8 +27,8 @@ const Header = () => {
         <Navbar.Toggle />
         <Navbar.Collapse>
           <HeaderLink to={"/"} text={"Home"} />
-          {isLoggedIn && <HeaderLink to={"/admin"} text={"Admin"} />}
           <HeaderLink to={"/about"} text={"About"} />
+          {isLoggedIn && <HeaderLink to={"/admin"} text={"Admin"} />}
           <HeaderLogin />
         </Navbar.Collapse>
       </Navbar>

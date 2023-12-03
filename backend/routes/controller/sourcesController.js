@@ -55,6 +55,8 @@ const deleteSource = async (id, userId) => {
     .match({ id: id })
     .single();
 
+  console.log(source, userId);
+
   const { data: userArgument } = await sbClient
     .from("arguments")
     .select()

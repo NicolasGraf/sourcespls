@@ -1,18 +1,14 @@
 import SourceContainer from "./SourceContainer";
-import { deleteSourceById } from "../../lib/apiController";
 import { useAuth } from "../../lib/authProvider";
+import { useDeleteSourceById } from "../../lib/apiHooks";
 
 const PreviewSources = ({ sources, onSetSources, editable }) => {
   const noSources = sources.length === 0;
   const { session } = useAuth();
+  const { deleteSourceById } = useDeleteSourceById();
 
   const onDelete = async (id) => {
-    const { error } = await deleteSourceById(id, session);
-    if (error) {
-      console.error(error);
-      return;
-    }
-
+    await deleteSourceById(id, session);
     const newSources = sources.filter((source) => source.id !== id);
     onSetSources(newSources);
   };
