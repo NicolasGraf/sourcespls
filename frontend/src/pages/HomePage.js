@@ -3,10 +3,10 @@ import SeparatorResponsive from "../components/common/SeparatorResponsive";
 import MainArgumentEditor from "../components/home/MainArgumentEditor";
 import LinkCreator from "../components/home/LinkCreator";
 import Separator from "../components/common/Seperator";
-import { useMainPageContext } from "../lib/mainPageContext";
+import { useHomePageContext } from "../lib/HomePageContext";
 
 export const HomePage = () => {
-  const { sources, setSources } = useMainPageContext();
+  const { sources, setSources } = useHomePageContext();
 
   return (
     <main className="container mx-auto px-4 py-8 text-center dark:text-primary-light md:flex md:flex-row md:flex-wrap">

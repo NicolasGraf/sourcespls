@@ -5,7 +5,6 @@ import { useAdminContext } from "../../lib/AdminContext";
 
 const SavedArgsPage = () => {
   const { selectedSources, updateSources } = useAdminContext();
-  console.log(selectedSources);
 
   return (
     <div className=" md:flex md:flex-row gap-4">

@@ -1,7 +1,7 @@
 import { Card } from "flowbite-react";
 import { IoClose } from "react-icons/io5";
 import SourceEditorForm from "../sources/SourceEditorForm";
-import { useMainPageContext } from "../../lib/mainPageContext";
+import { useHomePageContext } from "../../lib/HomePageContext";
 import { useSaveSource } from "../../lib/apiHooks";
 import { useEffect } from "react";
 
@@ -13,7 +13,7 @@ const MainSourceEditor = ({ resetSourceForm }) => {
     setQuoteInputValue,
     setSources,
     sources,
-  } = useMainPageContext();
+  } = useHomePageContext();
   const { saveSource, data, loading, error } = useSaveSource();
   const handleSubmit = async (event) => {
     event.preventDefault();

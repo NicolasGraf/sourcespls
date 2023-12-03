@@ -15,7 +15,7 @@ import AboutPage from "./pages/AboutPage";
 import AdminPage from "./pages/AdminPage";
 import RequireAuth from "./components/common/RequireAuth";
 import { AuthProvider } from "./lib/authProvider";
-import { MainPageProvider } from "./lib/mainPageContext";
+import { HomePageProvider } from "./lib/HomePageContext";
 import { AdminProvider } from "./lib/AdminContext";
 import { ToastProvider } from "./lib/toastProvider";
 import ToastPortal from "./components/common/ToastPortal";
@@ -37,9 +37,9 @@ function App() {
                 <Route
                   path="/"
                   element={
-                    <MainPageProvider>
+                    <HomePageProvider>
                       <HomePage />
-                    </MainPageProvider>
+                    </HomePageProvider>
                   }
                 />
                 <Route path="/login" element={<LoginPage />} />

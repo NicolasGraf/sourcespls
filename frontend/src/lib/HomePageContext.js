@@ -1,8 +1,8 @@
 import { createContext, useContext, useState } from "react";
 
-const MainPageContext = createContext(null);
+const HomePageContext = createContext(null);
 
-export const MainPageProvider = ({ children }) => {
+export const HomePageProvider = ({ children }) => {
   const [sources, setSources] = useState([]);
   const [isLinkLoading, setIsLinkLoading] = useState(false);
   const [argumentTitle, setArgumentTitle] = useState("");
@@ -12,7 +12,7 @@ export const MainPageProvider = ({ children }) => {
   const [hasSourceError, setHasSourceError] = useState(false);
 
   return (
-    <MainPageContext.Provider
+    <HomePageContext.Provider
       value={{
         sources,
         setSources,
@@ -31,8 +31,8 @@ export const MainPageProvider = ({ children }) => {
       }}
     >
       {children}
-    </MainPageContext.Provider>
+    </HomePageContext.Provider>
   );
 };
 
-export const useMainPageContext = () => useContext(MainPageContext);
+export const useHomePageContext = () => useContext(HomePageContext);

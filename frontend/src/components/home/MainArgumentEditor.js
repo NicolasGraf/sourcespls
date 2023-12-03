@@ -1,6 +1,6 @@
 import TitleInput from "./TitleInput";
 import StartAddingSources from "./StartAddingSources";
-import { useMainPageContext } from "../../lib/mainPageContext";
+import { useHomePageContext } from "../../lib/HomePageContext";
 import MainSourceEditor from "./MainSourceEditor";
 
 const MainArgumentEditor = () => {
@@ -10,7 +10,7 @@ const MainArgumentEditor = () => {
     sourceInputValue,
     setSourceInputValue,
     setQuoteInputValue,
-  } = useMainPageContext();
+  } = useHomePageContext();
 
   const setInputsEmpty = () => {
     setSourceInputValue("");
