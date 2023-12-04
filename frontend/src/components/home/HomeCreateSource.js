@@ -5,7 +5,7 @@ import { useHomePageContext } from "../../lib/HomePageContext";
 import { useSaveSource } from "../../lib/apiHooks";
 import { useEffect } from "react";
 
-const HomeSourceEditor = ({ argumentLoading, onSaveSource }) => {
+const HomeCreateSource = ({ argumentLoading, onSaveSource }) => {
   const {
     sourceInputValue,
     setSourceInputValue,
@@ -21,11 +21,11 @@ const HomeSourceEditor = ({ argumentLoading, onSaveSource }) => {
   };
 
   useEffect(() => {
-    if (data) {
-      const updatedSources = [...sources, data];
-      setSources(updatedSources);
-      onSaveSource(updatedSources);
-    }
+    if (!data) return;
+
+    const updatedSources = [...sources, data];
+    setSources(updatedSources);
+    onSaveSource(updatedSources);
   }, [data]);
 
   if (sourceInputValue === null) return null;
@@ -49,4 +49,4 @@ const HomeSourceEditor = ({ argumentLoading, onSaveSource }) => {
   );
 };
 
-export default HomeSourceEditor;
+export default HomeCreateSource;

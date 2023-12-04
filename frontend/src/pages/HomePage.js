@@ -1,6 +1,6 @@
 import PreviewSources from "../components/sources/PreviewSources";
 import SeparatorResponsive from "../components/common/SeparatorResponsive";
-import HomeArgumentEditor from "../components/home/HomeArgumentEditor";
+import HomeCreateArgument from "../components/home/HomeCreateArgument";
 import { useHomePageContext } from "../lib/HomePageContext";
 
 export const HomePage = () => {
@@ -13,7 +13,7 @@ export const HomePage = () => {
         Back up your argument with real sources to prove your point.
       </h2>
       <div className="flex-1">
-        <HomeArgumentEditor />
+        <HomeCreateArgument />
       </div>
       <SeparatorResponsive />
       <div className="flex-1 h-full">

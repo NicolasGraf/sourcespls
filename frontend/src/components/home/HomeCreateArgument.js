@@ -1,35 +1,30 @@
 import TitleInput from "./TitleInput";
-import StartAddingSources from "./StartAddingSources";
 import { useHomePageContext } from "../../lib/HomePageContext";
-import HomeSourceEditor from "./HomeSourceEditor";
+import HomeCreateSource from "./HomeCreateSource";
 import { useSaveArgument, useUpdateArgument } from "../../lib/apiHooks";
 import { useEffect } from "react";
 import ResultLink from "./ResultLink";
 import Separator from "../common/Seperator";
 
-const HomeArgumentEditor = () => {
+const HomeCreateArgument = () => {
   const {
     argumentTitle,
-    setArgumentTitle,
-    sourceInputValue,
     setSourceInputValue,
     setQuoteInputValue,
     createdArgumentSlug,
     setCreatedArgumentSlug,
   } = useHomePageContext();
+
   const {
     saveArgument,
     data: savedArgument,
     loading: saveLoading,
   } = useSaveArgument();
-  const {
-    updateArgument,
-    data: updatedArgument,
-    loading: updateLoading,
-  } = useUpdateArgument();
-  const host = window.location.origin;
+  const { updateArgument, loading: updateLoading } = useUpdateArgument();
+
   let createdLink = null;
   if (createdArgumentSlug) {
+    const host = window.location.origin;
     createdLink = `${host}/${createdArgumentSlug}`;
   }
 
@@ -39,38 +34,31 @@ const HomeArgumentEditor = () => {
   };
 
   const saveOrUpdateArgument = async (sources) => {
-    setInputsEmpty();
     const sourceIds = sources.map((source) => source.id);
+    const body = { argumentTitle, sourceIds, hideToast: true };
+
     if (createdArgumentSlug) {
-      await updateArgument({
-        slug: createdArgumentSlug,
-        argumentTitle,
-        sourceIds,
-        hideToast: true,
-      });
+      body.slug = createdArgumentSlug;
+      await updateArgument(body);
     } else {
-      await saveArgument({ argumentTitle, sourceIds, hideToast: true });
+      await saveArgument(body);
     }
+    setInputsEmpty();
   };
 
   useEffect(() => {
-    if (savedArgument || updatedArgument) {
+    if (savedArgument) {
       setCreatedArgumentSlug(savedArgument.slug);
     }
-  }, [savedArgument, updatedArgument]);
+  }, [savedArgument]);
 
   return (
     <>
       <h2 className="text-xl text-left md:text-center font-light mb-4">
         Enter a title to your argument, and provide sources and quotes.
       </h2>
-      <TitleInput title={argumentTitle} onChange={setArgumentTitle} />
-      <StartAddingSources
-        hasTitle={argumentTitle !== ""}
-        sourceInputValue={sourceInputValue}
-        onStartAdding={setInputsEmpty}
-      />
-      <HomeSourceEditor
+      <TitleInput onSubmitTitle={setInputsEmpty} />
+      <HomeCreateSource
         loading={saveLoading || updateLoading}
         onSaveSource={saveOrUpdateArgument}
       />
@@ -80,4 +68,4 @@ const HomeArgumentEditor = () => {
   );
 };
 
-export default HomeArgumentEditor;
+export default HomeCreateArgument;
