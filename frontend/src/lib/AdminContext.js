@@ -38,12 +38,6 @@ export const AdminProvider = ({ children }) => {
     }
   };
 
-  const onUpdateArgument = (argument) => {
-    const updatedArguments = [...userArguments];
-    updatedArguments[selectedArgument] = argument;
-    setUserArguments(updatedArguments);
-  };
-
   return (
     <AdminContext.Provider
       value={{
@@ -54,7 +48,6 @@ export const AdminProvider = ({ children }) => {
         setSelectedArgument,
         updateSources,
         onDeleteArgument,
-        onUpdateArgument,
       }}
     >
       {children}

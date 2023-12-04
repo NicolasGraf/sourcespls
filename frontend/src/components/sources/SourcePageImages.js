@@ -1,7 +1,16 @@
 const SourcePageImages = ({ sources }) => {
+  const seenSiteNames = new Set();
+  const uniqueSources = sources.filter((source) => {
+    if (seenSiteNames.has(source.siteName)) {
+      return false;
+    }
+    seenSiteNames.add(source.siteName);
+    return true;
+  });
+
   return (
     <div className="flex gap-4 justify-center">
-      {sources.map(({ icon, siteName }, index) => (
+      {uniqueSources.map(({ icon, siteName }, index) => (
         <div
           key={index}
           className="shadow-md dark:bg-secondary-dark py-2 px-4 rounded-md flex items-center"

@@ -116,7 +116,7 @@ const useUpdateArgument = () => {
   return { updateArgument, loading, data, error };
 };
 
-const useGetAllArguments = () => {
+const useGetAllArguments = (hideToast = false) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
@@ -143,7 +143,11 @@ const useGetAllArguments = () => {
         const { data, error } = await response.json();
         if (error) throw error;
         setData(data);
-        showToast({ type: "success", text: "Successfully fetched arguments." });
+        if (!hideToast)
+          showToast({
+            type: "success",
+            text: "Successfully fetched arguments.",
+          });
       } catch (err) {
         setError(err);
         showToast({ type: "failure", text: "Could not fetch arguments." });

@@ -12,12 +12,12 @@ const PersonalArgumentList = () => {
     selectedArgument,
     setSelectedArgument,
   } = useAdminContext();
-  const { data, loading, error } = useGetAllArguments();
+
+  const { data, loading, error } = useGetAllArguments(true);
 
   useEffect(() => {
-    if (data) {
-      setUserArguments(data);
-    }
+    if (!data) return;
+    setUserArguments(data);
   }, [data]);
 
   if (loading) return <LoadingArgument />;
