@@ -20,6 +20,7 @@ import { AdminProvider } from "./lib/AdminContext";
 import { ToastProvider } from "./lib/toastProvider";
 import ToastPortal from "./components/common/ToastPortal";
 import SavedArgsPage from "./pages/admin/SavedArgsPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 
 function App() {
   const prefersDarkMode = window.matchMedia(
@@ -57,6 +58,7 @@ function App() {
                   <Route path="saved-arguments" element={<SavedArgsPage />} />
                 </Route>
                 <Route path="/about" element={<AboutPage />} />
+                <Route path="/privacy" element={<PrivacyPolicyPage />} />
                 <Route path="/:slug" element={<ArgumentPage />} />
               </Routes>
               <AppFooter />

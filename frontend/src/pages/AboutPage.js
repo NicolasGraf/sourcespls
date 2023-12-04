@@ -2,7 +2,7 @@ import { Accordion } from "flowbite-react";
 import { Link } from "react-router-dom";
 
 const AboutPage = () => {
-  const exampleLink = "https://sourcespls.com/fF6-DzpU";
+  const exampleLink = "https://sourcespls.com/O5HGzfL7";
 
   return (
     <main className="container max-w-6xl mx-auto px-4 py-8 text-center text-primary-dark dark:text-primary-light flex flex-col ">
@@ -11,7 +11,7 @@ const AboutPage = () => {
         <Accordion.Panel>
           <Accordion.Title>What is this?</Accordion.Title>
           <Accordion.Content>
-            <p>
+            <p className="mb-2">
               "Sources, Please" is an application developed for assembling
               arguments together with the corresponding sources. Ideal for
               online debate, it checks automatically whether quotes are actually
