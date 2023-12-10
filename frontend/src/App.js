@@ -27,6 +27,10 @@ function App() {
     "(prefers-color-scheme: dark)",
   ).matches;
 
+  if (window.location.hostname === "localhost") {
+    window.localStorage.setItem("umami.disabled", "true");
+  }
+
   return (
     <>
       <Flowbite theme={{ dark: prefersDarkMode, theme: customTheme }}>
