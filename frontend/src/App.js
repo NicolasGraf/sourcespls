@@ -21,6 +21,7 @@ import { ToastProvider } from "./lib/toastProvider";
 import ToastPortal from "./components/common/ToastPortal";
 import SavedArgsPage from "./pages/admin/SavedArgsPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import SignupPage from "./pages/SignupPage";
 
 function App() {
   const prefersDarkMode = window.matchMedia(
@@ -48,6 +49,7 @@ function App() {
                   }
                 />
                 <Route path="/login" element={<LoginPage />} />
+                <Route path="/signup" element={<SignupPage />} />
                 <Route
                   path="/admin"
                   element={
