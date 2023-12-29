@@ -40,6 +40,7 @@ const customTheme = {
   spinner: {
     color: {
       info: "fill-accent",
+      gray: "fill-primary-dark dark:fill-white dark:text-primary-dark",
     },
   },
   textInput: {

@@ -22,7 +22,7 @@ const SocialAuth = () => {
   return (
     <div>
       <Button className="w-full" onClick={() => handleLogin("google")} outline>
-        <FcGoogle className="text-3xl mr-2" />
+        <FcGoogle className="text-2xl mr-2" />
         Sign in with Google
       </Button>
     </div>
