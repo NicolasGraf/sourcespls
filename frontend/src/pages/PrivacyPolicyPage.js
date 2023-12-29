@@ -31,8 +31,7 @@ const PrivacyPolicyPage = () => {
       <p className="mb-4">Sources Please collects the following data:</p>
       <ul className="list-disc pl-6 mb-6">
         <li>
-          Personal identification information (Name, email address) provided by
-          Google Login.
+          Personal identification information (email address) provided by Login.
         </li>
       </ul>
       <h3 className="text-xl font-semibold mb-3">
@@ -43,7 +42,7 @@ const PrivacyPolicyPage = () => {
         data and process data when you:
       </p>
       <ul className="list-disc pl-6 mb-6">
-        <li>Register and sign in using Google Login.</li>
+        <li>Register and sign in.</li>
       </ul>
       <h3 className="text-xl font-semibold mb-3">How will we use your data?</h3>
       <p className="mb-4">

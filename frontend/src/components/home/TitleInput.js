@@ -28,7 +28,7 @@ const TitleInput = ({ onSubmitTitle }) => {
         color="primary"
         sizing="lg"
         className="mb-4"
-        placeholder={'Title, e.g. "Elon Musk was wrong on..."'}
+        placeholder={'Title, e.g. "The Earth really is not flat..."'}
         onChange={(e) => setArgumentTitle(e.target.value)}
         value={argumentTitle}
       />

@@ -43,9 +43,8 @@ const AboutPage = () => {
           <Accordion.Content>
             <p>
               As little as possible. Minimal data is collected for to operate
-              the login and securing the arguments bound to your account. There
-              is no tracking, apart from Googles regular tracking. See it in
-              legal terms here:{" "}
+              the login and securing the arguments bound to your account. See it
+              in legal terms here:{" "}
               <Link className="text-accent" to={"/privacy"}>
                 Privacy
               </Link>
