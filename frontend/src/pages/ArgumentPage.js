@@ -29,12 +29,9 @@ const ArgumentPage = () => {
   return (
     <div className="container max-w-7xl mx-auto px-4 py-8 text-center dark:text-primary-light">
       <div className="mb-4 md:mb-8">
-        <h1 className="text-3xl md:text-5xl leading-tight font-bold mb-4">
+        <h1 className="text-3xl md:text-5xl leading-tight font-bold mb-4 md:mb-8">
           {data.title}
         </h1>
-        <h4 className="dark:text-secondary-light mb-8 text-xl">
-          by Anonymous User
-        </h4>
         <SourcePageImages sources={data.sources} />
       </div>
       {sourceContainers}
