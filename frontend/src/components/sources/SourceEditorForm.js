@@ -24,6 +24,11 @@ const SourceEditorForm = ({
           Save
           <BiSave className="ml-1 text-lg" />
         </Button>
+        {isLoading && (
+          <p className="mr-auto ml-4 pr-4">
+            This should only take a couple of seconds...
+          </p>
+        )}
         {isLoading && <Spinner />}
       </div>
     </form>
